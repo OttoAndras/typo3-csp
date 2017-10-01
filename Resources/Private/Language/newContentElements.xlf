@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-18T21:49:07Z" product-name="csp">
+		<header/>
+		<body>
+			<trans-unit id="tab.csp">
+				<source>Secure Content</source>
+			</trans-unit>
+			<trans-unit id="iframe.title">
+				<source>Iframe</source>
+			</trans-unit>
+			<trans-unit id="iframe.description">
+				<source>Generates an iframe and adds it to the Content Security Policy of the page</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,154 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<main>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.sheet.main.title</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<settings.iframe.src>
+						<TCEforms>
+							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.src</label>
+							<config>
+								<type>input</type>
+								<size>100</size>
+								<eval>required,trim</eval>
+								<max>300</max>
+							</config>
+						</TCEforms>
+					</settings.iframe.src>
+					<settings.iframe.name>
+						<TCEforms>
+							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.name</label>
+							<config>
+								<type>input</type>
+								<size>100</size>
+								<eval>trim</eval>
+								<max>100</max>
+							</config>
+						</TCEforms>
+					</settings.iframe.name>
+					<settings.iframe.sandbox>
+						<TCEforms>
+							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.sandbox</label>
+							<config>
+								<type>select</type>
+								<renderType>selectMultipleSideBySide</renderType>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">allow-forms</numIndex>
+										<numIndex index="1">allow-forms</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">allow-modals</numIndex>
+										<numIndex index="1">allow-modals</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">allow-orientation-lock</numIndex>
+										<numIndex index="1">allow-orientation-lock</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">allow-pointer-lock</numIndex>
+										<numIndex index="1">allow-pointer-lock</numIndex>
+									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">allow-popups</numIndex>
+										<numIndex index="1">allow-popups</numIndex>
+									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">allow-popups-to-escape-sandbox</numIndex>
+										<numIndex index="1">allow-popups-to-escape-sandbox</numIndex>
+									</numIndex>
+									<numIndex index="6" type="array">
+										<numIndex index="0">allow-presentation</numIndex>
+										<numIndex index="1">allow-presentation</numIndex>
+									</numIndex>
+									<numIndex index="7" type="array">
+										<numIndex index="0">allow-same-origin</numIndex>
+										<numIndex index="1">allow-same-origin</numIndex>
+									</numIndex>
+									<numIndex index="8" type="array">
+										<numIndex index="0">allow-scripts</numIndex>
+										<numIndex index="1">allow-scripts</numIndex>
+									</numIndex>
+									<numIndex index="9" type="array">
+										<numIndex index="0">allow-top-navigation</numIndex>
+										<numIndex index="1">allow-top-navigation</numIndex>
+									</numIndex>
+									<numIndex index="20" type="array">
+										<numIndex index="0">allow-top-navigation-by-user-activation</numIndex>
+										<numIndex index="1">allow-top-navigation-by-user-activation</numIndex>
+									</numIndex>
+								</items>
+								<size>10</size>
+								<autoSizeMax>20</autoSizeMax>
+								<minitems>0</minitems>
+								<maxitems>10</maxitems>
+							</config>
+						</TCEforms>
+					</settings.iframe.sandbox>
+
+					<settings.iframe.allowFullScreen>
+						<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.allowFullScreen</label>
+						<config>
+							<type>check</type>
+							<default>1</default>
+						</config>
+					</settings.iframe.allowFullScreen>
+					<settings.iframe.allowPaymentRequest>
+						<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.allowPaymentRequest</label>
+						<config>
+							<type>check</type>
+							<default>1</default>
+						</config>
+					</settings.iframe.allowPaymentRequest>
+				</el>
+			</ROOT>
+		</main>
+		<stlye>
+			<ROOT>
+				<el>
+					<TCEforms>
+						<sheetTitle>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.sheet.style.title</sheetTitle>
+					</TCEforms>
+					<type>array</type>
+					<settings.iframe.class>
+						<TCEforms>
+							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.class</label>
+							<config>
+								<type>input</type>
+								<size>100</size>
+								<eval>trim</eval>
+								<max>300</max>
+							</config>
+						</TCEforms>
+					</settings.iframe.class>
+					<settings.iframe.width>
+						<TCEforms>
+							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.width</label>
+							<config>
+								<type>input</type>
+								<size>30</size>
+								<eval>int</eval>
+							</config>
+						</TCEforms>
+					</settings.iframe.width>
+					<settings.iframe.height>
+						<TCEforms>
+							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.height</label>
+							<config>
+								<type>input</type>
+								<size>30</size>
+								<eval>int</eval>
+							</config>
+						</TCEforms>
+					</settings.iframe.height>
+				</el>
+			</ROOT>
+		</stlye>
+	</sheets>
+</T3DataStructure>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-18T21:49:07Z" product-name="csp">
+		<header/>
+		<body>
+			<trans-unit id="plugin.iframe.title">
+				<source>Iframe</source>
+			</trans-unit>
+			<trans-unit id="plugin.iframe.description">
+				<source>Renders an iframe specified in the src and registers it to the Content Security Policy Header</source>
+			</trans-unit>
+			<trans-unit id="flexform.sheet.main.title">
+				<source>Main settings</source>
+			</trans-unit>
+			<trans-unit id="flexform.sheet.style.title">
+				<source>Style settings</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.src">
+				<source>Src</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.class">
+				<source>Class</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.width">
+				<source>Width</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.height">
+				<source>Height</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.sandbox">
+				<source>Sandbox</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.allowFullScreen">
+				<source>Allow full screen mode</source>
+			</trans-unit>
+			<trans-unit id="flexform.iframe.allowPaymentRequest">
+				<source>Allow payment requests in iframe</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

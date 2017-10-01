@@ -1,0 +1,73 @@
+config.csp {
+    enabled = {$config.csp.enabled}
+
+    googleAnalytics {
+        enabled = {$config.csp.googleAnalytics.enabled}
+        rules {
+            script = {$config.csp.googleAnalytics.script}
+            img = {$config.csp.googleAnalytics.img}
+        }
+    }
+
+    youTube {
+        enabled = {$config.csp.youTube.enabled}
+        rules {
+            frame = {$config.csp.youTube.frame}
+        }
+    }
+
+    vimeo {
+        enabled = {$config.csp.vimeo.enabled}
+        rules {
+            frame = {$config.csp.vimeo.frame}
+        }
+    }
+
+    googleMaps {
+        enabled = {$config.csp.googleMaps.enabled}
+        rules {
+            script = {$config.csp.googleMaps.script}
+        }
+    }
+
+    googleFonts {
+        enabled = {$config.csp.googleFonts.enabled}
+        rules {
+            font = {$config.csp.googleFonts.font}
+            style = {$config.csp.googleFonts.style}
+        }
+    }
+
+    jQuery {
+        enabled = {$config.csp.jQuery.enabled}
+        rules {
+            script = {$config.csp.jQuery.script}
+        }
+    }
+
+    additionalDomains {
+        default {
+            0 = self
+        }
+
+        style {
+            0 = self
+        }
+
+        script {
+            0 = self
+        }
+
+        font {
+            0 = self
+        }
+
+        object {
+            0 = self
+        }
+
+        img {
+            0 = self
+        }
+    }
+}
