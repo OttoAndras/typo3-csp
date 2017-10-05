@@ -43,12 +43,24 @@ class ScriptUtility
             $script = trim($script);
         }
         if($script) {
-            $hash = hash($method, $script, true);
+            $hash = self::calculateScriptHash($script, $method);
 
             ContentSecurityPolicyManager::getBuilder()->addHash($method,
                 $hash);
         }
         return $script;
+    }
+
+    /**
+     * Prepares a string for the output
+     * It means, that a hash value will be registered through the policy builder.
+     *
+     * @param string $script The javascript code
+     * @param string $method The sha algorithm sha256 or sha512. Default sha256
+     * @return string
+     */
+    static protected function calculateScriptHash($script, $method = self::SHA_256) {
+        return hash($method, $script, true);
     }
 
     /**

@@ -14,6 +14,7 @@ namespace AndrasOtto\Csp\ContentObject;
  * The TYPO3 project - inspiring people to share!
  */
 use AndrasOtto\Csp\Utility\ScriptUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\TextContentObject;
 
 /**
@@ -21,6 +22,17 @@ use TYPO3\CMS\Frontend\ContentObject\TextContentObject;
  */
 class ScriptContentObject extends TextContentObject
 {
+
+    /**
+     * Default constructor.
+     *
+     * @param ContentObjectRenderer $cObj
+     */
+    public function __construct(ContentObjectRenderer $cObj)
+    {
+        parent::__construct($cObj);
+    }
+
     /**
      * Rendering the cObject, TEXT
      *

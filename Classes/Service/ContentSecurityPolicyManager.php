@@ -15,8 +15,9 @@
 namespace AndrasOtto\Csp\Service;
 
 
-use Phpcsp\Security\ContentSecurityPolicyHeaderBuilder;
+use AndrasOtto\Csp\Exceptions\InvalidClassException;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class ContentSecurityPolicyManager implements SingletonInterface
@@ -24,14 +25,6 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
     const DIRECTIVE_POSTFIX = "-src";
 
-   static protected $enabledPreSets = [
-        'googleAnalytics',
-        'googleMaps',
-        'googleFonts',
-        'youTube',
-        'vimeo',
-        'jQuery'
-    ];
 
     /** @var  ContentSecurityPolicyHeaderBuilder */
     static private $headerBuilder = null;
@@ -43,11 +36,44 @@ class ContentSecurityPolicyManager implements SingletonInterface
      */
     static public function getBuilder() {
         if(!self::$headerBuilder) {
-            self::$headerBuilder = new ContentSecurityPolicyHeaderBuilder();
+            self::$headerBuilder = self::createNewBuilderInstance();
         }
         return self::$headerBuilder;
     }
 
+    /**
+     * Creates a ContentSecurityPolicyHeaderBuilderInterface instance through a reference
+     * in the $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['csp']['ContentSecurityPolicyHeaderBuilder']
+     *
+     * @return ContentSecurityPolicyHeaderBuilderInterface
+     * @throws InvalidClassException
+     */
+    static private function createNewBuilderInstance() {
+        $className = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['csp']['ContentSecurityPolicyHeaderBuilder']
+            ?? ContentSecurityPolicyHeaderBuilder::class;
+
+        /** @var ContentSecurityPolicyHeaderBuilderInterface $instance */
+        $instance = GeneralUtility::makeInstance($className);
+
+        if(!($instance instanceof ContentSecurityPolicyHeaderBuilderInterface)) {
+            throw new InvalidClassException(
+                sprintf('The class "%s" must implement the interface ContentSecurityPolicyHeaderBuilderInterface',
+                    $className),
+                1505944587
+            );
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Resets the header builder to a new instance
+     *
+     * @return void
+     */
+    static public function resetBuilder() {
+        self::$headerBuilder = self::createNewBuilderInstance();
+    }
 
     /**
      * @param TypoScriptFrontendController $tsfe
@@ -60,23 +86,27 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
             $builder = self::getBuilder();
 
-            $config = $tsfe->config['config']['csp.'];
+            $config = $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.'];
 
             if(isset($config['additionalDomains.'])) {
-                foreach ($config['additionalDomains.'] as $directive => $preSets) {
-                    foreach ($preSets as $preSet) {
-                        $builder->addSourceExpression(rtrim($directive, '.') . self::DIRECTIVE_POSTFIX, $preSet);
+                foreach ($config['additionalDomains.'] as $directive => $sources) {
+                    foreach ($sources as $source) {
+                        $builder->addSourceExpression(rtrim($directive, '.') . self::DIRECTIVE_POSTFIX, $source);
                     }
                 }
             }
+            if(isset($config['presets.'])
+                && is_array($config['presets.'])) {
 
-            foreach (self::$enabledPreSets as $enabledPreSet) {
-                $preSetEnabed = $config[$enabledPreSet . '.']['enabled'] ?? false;
-                if($preSetEnabed
-                    && isset($config[$enabledPreSet . '.']['rules.'])) {
+                foreach ($config['presets.'] as $preSet) {
+                    $preSetEnabled = $preSet['enabled'] ?? false;
+                    if ($preSetEnabled
+                        && isset($preSet['rules.'])
+                    ) {
 
-                    foreach ($config[$enabledPreSet . '.']['rules.'] as $directive => $value) {
-                        $builder->addSourceExpression($directive . self::DIRECTIVE_POSTFIX, $value);
+                        foreach ($preSet['rules.'] as $directive => $source) {
+                            $builder->addSourceExpression($directive . self::DIRECTIVE_POSTFIX, $source);
+                        }
                     }
                 }
             }

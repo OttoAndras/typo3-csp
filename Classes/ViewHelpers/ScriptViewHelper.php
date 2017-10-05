@@ -12,10 +12,10 @@ namespace AndrasOtto\Csp\ViewHelpers;
  *                                                                        */
 
 use AndrasOtto\Csp\Utility\ScriptUtility;
+use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
-use TYPO3\CMS\Install\FolderStructure\Exception\InvalidArgumentException;
 
 /**
  * Declares new variables which are aliases of other variables.
@@ -53,13 +53,13 @@ class ScriptViewHelper extends AbstractViewHelper implements CompilableInterface
      *
      * @param string $hashMethod the values sha256|sha512. It defines the hash algorithm
      * @return string Rendered string
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentValueException
      * @api
      */
     public function render($hashMethod = 'sha256')
     {
         if(!in_array($hashMethod, ScriptUtility::$allowedMethods)) {
-            throw new InvalidArgumentException("The parameter 'hashMethod' should have the value 'sha256' or 'sha512'. 
+            throw new InvalidArgumentValueException("The parameter 'hashMethod' should have the value 'sha256' or 'sha512'. 
             Default is 'sha256'. Current value was given: " . $hashMethod, 1505578559);
         }
 

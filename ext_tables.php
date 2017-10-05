@@ -18,3 +18,6 @@ if (!defined('TYPO3_MODE')) {
     'LLL:EXT:csp/Resources/Private/Language/backend.xlf:plugin.iframe.title',
     'LLL:EXT:csp/Resources/Private/Language/backend.xlf:plugin.iframe.description'
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['csp']['ContentSecurityPolicyHeaderBuilder'] =
+    \AndrasOtto\Csp\Service\ContentSecurityPolicyHeaderBuilder::class;

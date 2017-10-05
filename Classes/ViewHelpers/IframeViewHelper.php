@@ -17,32 +17,10 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Declares new variables which are aliases of other variables.
- * Takes a "map"-Parameter which is an associative array which defines the shorthand mapping.
+ * Renders an Iframe tag
  *
- * The variables are only declared inside the <f:alias>...</f:alias>-tag. After the
- * closing tag, all declared variables are removed again.
- *
- * = Examples =
- *
- * <code title="Single alias">
- * <f:alias map="{x: 'foo'}">{x}</f:alias>
- * </code>
- * <output>
- * foo
- * </output>
- *
- * <code title="Multiple mappings">
- * <f:alias map="{x: foo.bar.baz, y: foo.bar.baz.name}">
- *   {x.name} or {y}
- * </f:alias>
- * </code>
- * <output>
- * [name] or [name]
- * depending on {foo.bar.baz}
- * </output>
- *
- * @api
+ * Class IframeViewHelper
+ * @package AndrasOtto\Csp\ViewHelpers
  */
 class IframeViewHelper extends AbstractViewHelper
 {
@@ -56,10 +34,19 @@ class IframeViewHelper extends AbstractViewHelper
      * @param int $width
      * @param int $height
      * @param string $sandbox
+     * @param bool $allowFullScreen
+     * @param bool $allowPaymentRequest
      * @return string
      * @throws InvalidArgumentValueException
      */
-    public function render($src, $class = '', $name = '', $width = 0, $height = 0, $sandbox = '')
+    public function render($src,
+                           $class = '',
+                           $name = '',
+                           $width = 0,
+                           $height = 0,
+                           $sandbox = '',
+                           $allowFullScreen = false,
+                           $allowPaymentRequest = false)
     {
         if(!$src) {
             throw new InvalidArgumentValueException('Src must be provided.', 1505632669);
@@ -73,6 +60,8 @@ class IframeViewHelper extends AbstractViewHelper
                 'width' => $width,
                 'height' => $height,
                 'sandbox' => $sandbox,
+                'allowFullScreen' => $allowFullScreen,
+                'allowPaymentRequest' => $allowPaymentRequest,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext

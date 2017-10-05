@@ -15,6 +15,7 @@
 namespace AndrasOtto\Csp\Utility;
 
 
+use AndrasOtto\Csp\Domain\Model\Iframe;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use Phpcsp\Security\ContentSecurityPolicyHeaderBuilder;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
@@ -23,83 +24,27 @@ class IframeUtility
 {
 
     /**
-     * Generates HTML5 Iframe object.
+     * Accepted properties.
+     * Source: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
      *
-     * @param string $src
-     * @param string $name
-     * @param string $class
-     * @param int $width
-     * @param int $height
-     * @param string $sandbox
-     * @param bool $allowPaymentRequest
-     * @param bool $allowFullScreen
-     * @throws InvalidArgumentValueException
-     * @return string
+     * @var array
      */
-    static public function generateIframeTag($src,
-                                             $class = '',
-                                             $name = '',
-                                             $width = 0,
-                                             $height = 0,
-                                             $sandbox = '',
-                                             $allowPaymentRequest = false,
-                                             $allowFullScreen = false) {
-        $attributes = [];
-
-        if(!$src) {
-            throw new InvalidArgumentValueException('Src must be provided.', 1505632669);
-        }
-
-        $host = parse_url($src, PHP_URL_HOST);
-
-        if(!$host) {
-            throw new InvalidArgumentValueException('Host could not be extracted from src', 1505632673);
-        }
-
-        ContentSecurityPolicyManager::getBuilder()->addSourceExpression(
-            ContentSecurityPolicyHeaderBuilder::DIRECTIVE_FRAME_SRC, $host);
-
-        if($name) {
-            $attributes['name'] = $name;
-        }
-
-        if(intval($width) && $width > 0) {
-            $attributes['width'] = $width;
-        }
-
-        if(intval($height) && $height > 0) {
-            $attributes['height'] = $height;
-        }
-
-        if($sandbox) {
-            $attributes['sandbox'] = preg_replace('/,/', ' ', $sandbox);
-        }
-
-        if($class) {
-            $attributes['class'] = $class;
-        }
-
-        if($allowPaymentRequest) {
-            $attributes['allowpaymentrequest'] = 'allowpaymentrequest';
-        }
-
-        if($allowFullScreen) {
-            $attributes['allowfullscreen'] = 'allowfullscreen';
-        }
-
-        $iframe = sprintf('<iframe src="%s" ', $src);
-
-        foreach ($attributes as $attributeName => $value) {
-            $iframe .= sprintf('%s="%s" ', $attributeName, $value);
-        }
-
-        $iframe .= '></iframe>';
-
-        return $iframe;
-    }
+    static protected $acceptedSandboxValues = [
+        'allow-forms',
+        'allow-modals',
+        'allow-orientation-lock',
+        'allow-pointer-lock',
+        'allow-popups',
+        'allow-popups-to-escape-sandbox',
+        'allow-presentation',
+        'allow-same-origin',
+        'allow-scripts',
+        'allow-top-navigation',
+        'allow-top-navigation-by-user-activation'
+    ];
 
     /**
-     * @param array $conf A onfig array with the possible values of src|class|name|width|height|sandbox
+     * @param array $conf A config array with the possible values of src|class|name|width|height|sandbox
      * @return string
      */
     static public function generateIframeTagFromConfigArray($conf){
@@ -109,7 +54,19 @@ class IframeUtility
         $width = $conf['width'] ?? 0;
         $height = $conf['height'] ?? 0;
         $sandbox = $conf['sandbox'] ?? '';
+        $allowFullScreen = $conf['allowFullScreen'] ?? '';
+        $allowPaymentRequest = $conf['allowPaymentRequest'] ?? '';
 
-        return self::generateIframeTag($src, $class, $name, $width, $height, $sandbox);
+
+        $iframe = new Iframe($src,
+            $class,
+            $name,
+            $width,
+            $height,
+            $sandbox,
+            $allowFullScreen,
+            $allowPaymentRequest);
+
+        return $iframe->generateHtmlTag();
     }
 }
