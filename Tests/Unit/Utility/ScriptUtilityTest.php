@@ -33,22 +33,6 @@ class ScriptUtilityTest extends UnitTestCase
     /**
      * @test
      */
-    public function prepareScriptCanBeUsed() {
-        $preparedScript = ScriptUtility::prepareScript('');
-        $this->assertEquals('', $preparedScript);
-    }
-
-    /**
-     * @test
-     */
-    public function prepareScriptTrimsCorrectly() {
-        $preparedScript = ScriptUtility::prepareScript('   alert(Hello!);    ');
-        $this->assertEquals('alert(Hello!);', $preparedScript);
-    }
-
-    /**
-     * @test
-     */
     public function scriptTagCorrectlyAttachedToScriptCode() {
         $preparedScript = ScriptUtility::getValidScriptTag('   alert("Hello!");    ');
         $this->assertEquals('<script>alert("Hello!");</script>', $preparedScript);
@@ -60,7 +44,7 @@ class ScriptUtilityTest extends UnitTestCase
      */
     public function hashAddedCorrectly() {
         ContentSecurityPolicyManager::resetBuilder();
-        ScriptUtility::prepareScript('var foo = "314"');
+        ScriptUtility::getValidScriptTag('var foo = "314"');
         $headers = ContentSecurityPolicyManager::extractHeaders();
         $this->assertEquals(
             'Content-Security-Policy: script-src \'sha256-gPMJwWBMWDx0Cm7ZygJKZIU2vZpiYvzUQjl5Rh37hKs=\';',

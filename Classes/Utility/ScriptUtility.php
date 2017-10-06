@@ -15,53 +15,10 @@
 namespace AndrasOtto\Csp\Utility;
 
 
-use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
+use AndrasOtto\Csp\Domain\Model\Script;
 
 class ScriptUtility
 {
-
-    const SHA_256 = 'sha256';
-    const SHA_512 = 'sha512';
-
-    static public $allowedMethods = [
-        self::SHA_256,
-        self::SHA_512
-    ];
-
-    /**
-     * Prepares a string for the output
-     * It means, that a hash value will be registered through the policy builder.
-     *
-     * @param string $script The javascript code
-     * @param string $method The sha algorithm sha256 or sha512. Default sha256
-     * @param bool $trimScript Trims the string value of the script parameter. Default true
-     * @return string
-     */
-    static public function prepareScript($script, $method = self::SHA_256, $trimScript = true) {
-
-        if($trimScript) {
-            $script = trim($script);
-        }
-        if($script) {
-            $hash = self::calculateScriptHash($script, $method);
-
-            ContentSecurityPolicyManager::getBuilder()->addHash($method,
-                $hash);
-        }
-        return $script;
-    }
-
-    /**
-     * Prepares a string for the output
-     * It means, that a hash value will be registered through the policy builder.
-     *
-     * @param string $script The javascript code
-     * @param string $method The sha algorithm sha256 or sha512. Default sha256
-     * @return string
-     */
-    static protected function calculateScriptHash($script, $method = self::SHA_256) {
-        return hash($method, $script, true);
-    }
 
     /**
      * Returns a prepared script tag.
@@ -69,18 +26,15 @@ class ScriptUtility
      * @param $script
      * @param string $method
      * @param bool $trimScript
-     * @see prepareScript
      * @return string
      */
-    static public function getValidScriptTag($script,  $method = self::SHA_256, $trimScript = true) {
-        $scriptTagOutput = '';
+    static public function getValidScriptTag($script,  $method = Script::SHA_256, $trimScript = true) {
+        $scriptObj = new Script($script, $method, $trimScript);
 
-        $script = self::prepareScript($script, $method, $trimScript);
+        $scriptTag = $scriptObj->generateHtmlTag();
 
-        if($script) {
-            $scriptTagOutput = '<script>' . $script . '</script>';
-        }
+        unset($scriptObj);
 
-        return $scriptTagOutput;
+        return $scriptTag;
     }
 }

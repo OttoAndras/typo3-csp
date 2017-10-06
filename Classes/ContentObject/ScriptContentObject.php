@@ -13,6 +13,7 @@ namespace AndrasOtto\Csp\ContentObject;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use AndrasOtto\Csp\Domain\Model\Script;
 use AndrasOtto\Csp\Utility\ScriptUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\TextContentObject;
@@ -43,11 +44,10 @@ class ScriptContentObject extends TextContentObject
     {
         $content = parent::render($conf);
 
-        $hashMethod = ScriptUtility::SHA_256;
+        $hashMethod = Script::SHA_256;
         $trimScript = true;
 
-        if(isset($conf['hashMethod'])
-            && in_array($conf['hashMethod'], ScriptUtility::$allowedMethods)) {
+        if(isset($conf['hashMethod'])) {
             $hashMethod = $conf['hashMethod'];
         }
 

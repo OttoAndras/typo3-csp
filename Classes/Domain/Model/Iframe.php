@@ -178,8 +178,8 @@ class Iframe extends AbstractEntity
      * @throws InvalidValueException
      */
     protected function ensureSandboxValues($sandbox) {
+        //Sandbox input value is a comma separated list
         $values = preg_split('/,/', $sandbox);
-
 
         foreach ($values as $value) {
             $value = trim($value);

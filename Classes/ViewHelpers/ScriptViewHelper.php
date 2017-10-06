@@ -58,11 +58,6 @@ class ScriptViewHelper extends AbstractViewHelper implements CompilableInterface
      */
     public function render($hashMethod = 'sha256')
     {
-        if(!in_array($hashMethod, ScriptUtility::$allowedMethods)) {
-            throw new InvalidArgumentValueException("The parameter 'hashMethod' should have the value 'sha256' or 'sha512'. 
-            Default is 'sha256'. Current value was given: " . $hashMethod, 1505578559);
-        }
-
         return static::renderStatic(
             ['hashMethod' => $hashMethod],
             $this->buildRenderChildrenClosure(),
