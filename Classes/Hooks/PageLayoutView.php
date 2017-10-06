@@ -26,7 +26,7 @@ class PageLayoutView implements PageLayoutViewDrawItemHookInterface  {
      */
     public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
 
-        //depending on your list type!!
+        //Make any action only in case of the correct iframe plugin
         if ($row['list_type'] !== 'csp_iframeplugin') {
             return;
         }
@@ -54,7 +54,7 @@ class PageLayoutView implements PageLayoutViewDrawItemHookInterface  {
     }
 
     /**
-     * Adds the selected attributes from the settings
+     * Searches the attributes values in the settings array and adds them to the output for BE
      *
      * @param array $attributes
      * @param array $settings
