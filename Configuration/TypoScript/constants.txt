@@ -1,35 +1,38 @@
 config.csp {
     enabled = 1
+}
+plugin.tx_csp.settings {
+    presets {
+        googleAnalytics {
+            enabled = 0
+            script = www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net
+            img = www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net
+        }
 
-    googleAnalytics {
-        enabled = 0
-        script = www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net
-        img = www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net
-    }
+        youTube {
+            enabled = 0
+            frame = www.youtube.com
+        }
 
-    youTube {
-        enabled = 0
-        frame = www.youtube.com
-    }
+        vimeo{
+            enabled = 1
+            frame = *.vimeo.com *.vimeocdn.com
+        }
 
-    vimeo{
-        enabled = 1
-        frame = *.vimeo.com *.vimeocdn.com
-    }
+        googleMaps {
+            enabled = 0
+            script = maps.googleapis.com maps.gstatic.com
+        }
 
-    googleMaps {
-        enabled = 0
-        script = maps.googleapis.com maps.gstatic.com
-    }
+        googleFonts {
+            enabled = 1
+            style = fonts.googleapis.com fonts.gstatic.com
+            font = fonts.googleapis.com fonts.gstatic.com
+        }
 
-    googleFonts {
-        enabled = 1
-        style = fonts.googleapis.com fonts.gstatic.com
-        font = fonts.googleapis.com fonts.gstatic.com
-    }
-
-    jQuery {
-        enabed = 0
-        script = ajax.googleapis.com
+        jQuery {
+            enabed = 0
+            script = ajax.googleapis.com
+        }
     }
 }

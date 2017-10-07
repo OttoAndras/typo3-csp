@@ -1,47 +1,52 @@
 config.csp {
     enabled = {$config.csp.enabled}
+}
 
-    googleAnalytics {
-        enabled = {$config.csp.googleAnalytics.enabled}
-        rules {
-            script = {$config.csp.googleAnalytics.script}
-            img = {$config.csp.googleAnalytics.img}
+plugin.tx_csp.settings {
+
+    presets {
+        googleAnalytics {
+            enabled = {$plugin.tx_csp.settings.presets.googleAnalytics.enabled}
+            rules {
+                script = {$plugin.tx_csp.settings.presets.googleAnalytics.script}
+                img = {$plugin.tx_csp.settings.presets.googleAnalytics.img}
+            }
         }
-    }
 
-    youTube {
-        enabled = {$config.csp.youTube.enabled}
-        rules {
-            frame = {$config.csp.youTube.frame}
+        youTube {
+            enabled = {$plugin.tx_csp.settings.presets.youTube.enabled}
+            rules {
+                frame = {$plugin.tx_csp.settings.presets.youTube.frame}
+            }
         }
-    }
 
-    vimeo {
-        enabled = {$config.csp.vimeo.enabled}
-        rules {
-            frame = {$config.csp.vimeo.frame}
+        vimeo {
+            enabled = {$plugin.tx_csp.settings.presets.vimeo.enabled}
+            rules {
+                frame = {$plugin.tx_csp.settings.presets.vimeo.frame}
+            }
         }
-    }
 
-    googleMaps {
-        enabled = {$config.csp.googleMaps.enabled}
-        rules {
-            script = {$config.csp.googleMaps.script}
+        googleMaps {
+            enabled = {$plugin.tx_csp.settings.presets.googleMaps.enabled}
+            rules {
+                script = {$plugin.tx_csp.settings.presets.googleMaps.script}
+            }
         }
-    }
 
-    googleFonts {
-        enabled = {$config.csp.googleFonts.enabled}
-        rules {
-            font = {$config.csp.googleFonts.font}
-            style = {$config.csp.googleFonts.style}
+        googleFonts {
+            enabled = {$plugin.tx_csp.settings.presets.googleFonts.enabled}
+            rules {
+                font = {$plugin.tx_csp.settings.presets.googleFonts.font}
+                style = {$plugin.tx_csp.settings.presets.googleFonts.style}
+            }
         }
-    }
 
-    jQuery {
-        enabled = {$config.csp.jQuery.enabled}
-        rules {
-            script = {$config.csp.jQuery.script}
+        jQuery {
+            enabled = {$plugin.tx_csp.settings.presets.jQuery.enabled}
+            rules {
+                script = {$plugin.tx_csp.settings.presets.jQuery.script}
+            }
         }
     }
 
