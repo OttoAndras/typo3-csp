@@ -106,10 +106,19 @@
 							<default>1</default>
 						</config>
 					</settings.iframe.allowPaymentRequest>
+					<settings.iframe.dataAttributes>
+						<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.dataAttributes</label>
+						<config>
+							<type>input</type>
+							<size>100</size>
+							<eval>AndrasOtto\Csp\Evaluation\DataAttributeEvaluation</eval>
+							<max>300</max>
+						</config>
+					</settings.iframe.dataAttributes>
 				</el>
 			</ROOT>
 		</main>
-		<stlye>
+		<style>
 			<ROOT>
 				<el>
 					<TCEforms>
@@ -149,6 +158,6 @@
 					</settings.iframe.height>
 				</el>
 			</ROOT>
-		</stlye>
+		</style>
 	</sheets>
 </T3DataStructure>

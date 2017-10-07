@@ -197,12 +197,30 @@ class IframeTest extends UnitTestCase
     /**
      * @test
      */
+    public function srcCanBeChanged() {
+        $this->iframe = new Iframe('https://www.test.de');
+        $this->iframe->setSrc('http://www.test.de');
+        $this->assertEquals('http://www.test.de', $this->iframe->getSrc());
+    }
+
+    /**
+     * @test
+     */
     public function srcCannotBeChangedToAnInvalidValue() {
         $this->setExpectedException(InvalidValueException::class,
             'Host cannot be extracted from the src value "test"',
             1505632671);
         $this->iframe = new Iframe('http://test.de');
         $this->iframe->setSrc('test');
+    }
+
+    /**
+     * @test
+     */
+    public function sandboxCanBeChanged() {
+        $this->iframe = new Iframe('https://www.test.de');
+        $this->iframe->setSandbox('allow-popups');
+        $this->assertEquals(1, count($this->iframe->getSandbox()));
     }
 
     /**
@@ -219,12 +237,30 @@ class IframeTest extends UnitTestCase
     /**
      * @test
      */
+    public function heightCanBeChanged() {
+        $this->iframe = new Iframe('https://www.test.de');
+        $this->iframe->setHeight(11);
+        $this->assertEquals(11, $this->iframe->getHeight());
+    }
+
+    /**
+     * @test
+     */
     public function heightCannotBeChangedToAnInvalidValue() {
         $this->setExpectedException(InvalidValueException::class,
             'Height should be a positive integer or zero, "-11" given',
             1505632672);
         $this->iframe = new Iframe('https://www.test.de');
         $this->iframe->setHeight(-11);
+    }
+
+    /**
+     * @test
+     */
+    public function widthCanBeChanged() {
+        $this->iframe = new Iframe('https://www.test.de');
+        $this->iframe->setWidth(11);
+        $this->assertEquals(11, $this->iframe->getWidth());
     }
 
     /**
@@ -256,6 +292,27 @@ class IframeTest extends UnitTestCase
         $this->iframe = new Iframe('https://www.test.de', "", "test1");
         $this->iframe->setName("test2");
         $this->assertEquals('test2', $this->iframe->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function dataAttributesCanBeAdded() {
+
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0, '', 0, false, 'test1: 1; data-test2: 2');
+        $this->assertEquals('<iframe src="http://test.de" data-test1="1" data-test2="2"></iframe>',
+            $this->iframe->generateHtmlTag());
+    }
+
+    /**
+     * @test
+     */
+    public function dataAttributesCanBeChanged() {
+
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0, '', 0, false, '');
+        $this->iframe->setDataAttributes('data-test2: 2');
+        $this->assertEquals('1',
+            count($this->iframe->getDataAttributes()));
     }
 
 

@@ -56,9 +56,10 @@ class IframeUtility
         $sandbox = $conf['sandbox'] ?? '';
         $allowFullScreen = $conf['allowFullScreen'] ?? '';
         $allowPaymentRequest = $conf['allowPaymentRequest'] ?? '';
+        $dataAttributes = $conf['dataAttributes'] ?? '';
 
 
-        $iframe = new Iframe($src, $class, $name, $width, $height, $sandbox, $allowFullScreen, $allowPaymentRequest);
+        $iframe = new Iframe($src, $class, $name, $width, $height, $sandbox, $allowFullScreen, $allowPaymentRequest, $dataAttributes);
 
         return $iframe->generateHtmlTag();
     }

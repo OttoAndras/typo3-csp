@@ -63,6 +63,11 @@ class Iframe extends AbstractEntity
     protected $allowPaymentRequest = false;
 
     /**
+     * @var array
+     */
+    protected $dataAttributes = [];
+
+    /**
      * Accepted values for sandbox.
      * Source: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
      *
@@ -93,6 +98,7 @@ class Iframe extends AbstractEntity
      * @param string $sandbox
      * @param bool $allowPaymentRequest
      * @param bool $allowFullScreen
+     * @param string $dataAttributes
      */
     public function __construct($src,
                                 $class = '',
@@ -101,7 +107,8 @@ class Iframe extends AbstractEntity
                                 $height = 0,
                                 $sandbox = '',
                                 $allowPaymentRequest = false,
-                                $allowFullScreen = false)
+                                $allowFullScreen = false,
+                                $dataAttributes = '')
     {
         $this->ensureSrc($src);
         $this->class = $class;
@@ -111,7 +118,7 @@ class Iframe extends AbstractEntity
         $this->ensureSandboxValues($sandbox);
         $this->ensureAllowFullScreen($allowFullScreen);
         $this->ensureAllowPaymentRequest($allowPaymentRequest);
-
+        $this->ensureDataAttributes($dataAttributes);
     }
 
     /**
@@ -200,7 +207,7 @@ class Iframe extends AbstractEntity
      * @param $allowFullScreen
      */
     protected function ensureAllowFullScreen($allowFullScreen) {
-        if($allowFullScreen) {
+        if(boolval($allowFullScreen)) {
             $this->allowFullScreen = true;
         }
     }
@@ -211,8 +218,22 @@ class Iframe extends AbstractEntity
      * @param $allowPaymentRequest
      */
     protected function ensureAllowPaymentRequest($allowPaymentRequest) {
-        if($allowPaymentRequest) {
+        if(boolval($allowPaymentRequest)) {
             $this->allowPaymentRequest = true;
+        }
+    }
+
+    /**
+     * Converts DataAttributes from a definition.
+     *
+     * @see DataAttribute::generateAttributesFromString
+     * @param $definition
+     *
+     * @return void
+     */
+    protected function ensureDataAttributes($definition) {
+        if($definition) {
+            $this->dataAttributes = DataAttribute::generateAttributesFromString($definition);
         }
     }
 
@@ -226,6 +247,7 @@ class Iframe extends AbstractEntity
 
     /**
      * @param string $src
+     * @return void
      */
     public function setSrc(string $src)
     {
@@ -274,6 +296,7 @@ class Iframe extends AbstractEntity
 
     /**
      * @param int $width
+     * @return void
      */
     public function setWidth(int $width)
     {
@@ -345,6 +368,22 @@ class Iframe extends AbstractEntity
     }
 
     /**
+     * @return array
+     */
+    public function getDataAttributes(): array
+    {
+        return $this->dataAttributes;
+    }
+
+    /**
+     * @param string $dataAttributes
+     */
+    public function setDataAttributes(string $dataAttributes)
+    {
+        $this->ensureDataAttributes($dataAttributes);
+    }
+
+    /**
      * Returns an iframe tag as as string
      *
      * @return string
@@ -388,10 +427,22 @@ class Iframe extends AbstractEntity
             $attributes['allowpaymentrequest'] = 'allowpaymentrequest';
         }
 
+        if(count($this->getDataAttributes()) > 0) {
+            /** @var DataAttribute $dataAttribute */
+            foreach ($this->getDataAttributes() as $dataAttribute) {
+                $attributes[$dataAttribute->getName()] = $dataAttribute->getValue();
+            }
+        }
+
         $iframe = '<iframe ';
 
         foreach ($attributes as $attributeName => $value) {
-            $iframe .= sprintf('%s="%s" ', $attributeName, $value);
+            if($value) {
+                $iframe .= sprintf('%s="%s" ',  $attributeName,  $value);
+            } else {
+                $iframe .= $attributeName;
+            }
+
         }
 
         return rtrim($iframe) . '></iframe>';

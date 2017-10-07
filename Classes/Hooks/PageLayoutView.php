@@ -9,6 +9,7 @@
 namespace AndrasOtto\Csp\Hooks;
 
 
+use AndrasOtto\Csp\Domain\Model\DataAttribute;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -37,10 +38,18 @@ class PageLayoutView implements PageLayoutViewDrawItemHookInterface  {
         if(isset($flexform['data']['main']['lDEF'])) {
             $mainSettings = $flexform['data']['main']['lDEF'];
 
-            $attributes = ['src', 'name', 'class', 'sandbox', 'allowFullScreen', 'allowPaymentRequest'];
+            $attributes = ['src', 'name', 'class', 'sandbox', 'allowFullScreen', 'allowPaymentRequest', 'dataAttributes'];
 
             $itemContent .= $this->addAttribute($attributes, $mainSettings);
+
+            try {
+                DataAttribute::generateAttributesFromString($mainSettings['settings.iframe.dataAttributes']['vDEF']);
+            } catch (\Exception $e){
+                $itemContent .= '<br><span class="form-group has-error"><label class="t3js-formengine-label"></label><b>Error: </b>' . $e->getMessage() . '</span>';
+            }
         }
+
+
 
         if(isset($flexform['data']['style']['lDEF'])) {
             $styleSettings = $flexform['data']['style']['lDEF'];
