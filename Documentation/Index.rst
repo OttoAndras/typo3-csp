@@ -72,4 +72,5 @@ An extension to make your frontend secure through the Content Security Policy he
    TypoScript/Index
    ForIntegrators/Index
    ForEditors/Index
+   CompatibilityWithOtherExtensions/Index
 
