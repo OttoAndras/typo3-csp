@@ -325,7 +325,7 @@ class Iframe extends AbstractEntity
      */
     public function setAllowFullScreen(bool $allowFullScreen)
     {
-        $this->ensureAllowFullScreen($allowFullScreen);
+        $this->ensureAllowFullScreen(boolval($allowFullScreen));
     }
 
     /**
@@ -341,7 +341,7 @@ class Iframe extends AbstractEntity
      */
     public function setAllowPaymentRequest(bool $allowPaymentRequest)
     {
-        $this->ensureAllowPaymentRequest($allowPaymentRequest);
+        $this->ensureAllowPaymentRequest(boolval($allowPaymentRequest));
     }
 
     /**

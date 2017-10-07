@@ -58,14 +58,7 @@ class IframeUtility
         $allowPaymentRequest = $conf['allowPaymentRequest'] ?? '';
 
 
-        $iframe = new Iframe($src,
-            $class,
-            $name,
-            $width,
-            $height,
-            $sandbox,
-            $allowFullScreen,
-            $allowPaymentRequest);
+        $iframe = new Iframe($src, $class, $name, $width, $height, $sandbox, $allowFullScreen, $allowPaymentRequest);
 
         return $iframe->generateHtmlTag();
     }

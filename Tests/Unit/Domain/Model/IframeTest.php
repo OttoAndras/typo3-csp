@@ -22,8 +22,9 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 class IframeTest extends UnitTestCase
 {
 
+    protected $iframe = null;
     /**
-     * Setup global
+     * Setup global$
      */
     public function setUp()
     {
@@ -34,8 +35,8 @@ class IframeTest extends UnitTestCase
      * @test
      */
     public function generateIframeWithSrcOnly() {
-        $iframe = new Iframe('http://test.de');
-        $this->assertEquals('<iframe src="http://test.de"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de');
+        $this->assertEquals('<iframe src="http://test.de"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
@@ -62,16 +63,16 @@ class IframeTest extends UnitTestCase
      * @test
      */
     public function classSetCorrectlyIfProvided() {
-        $iframe = new Iframe('http://test.de', 'class');
-        $this->assertEquals('<iframe src="http://test.de" class="class"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', 'class');
+        $this->assertEquals('<iframe src="http://test.de" class="class"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function nameSetCorrectlyIfProvided() {
-        $iframe = new Iframe('http://test.de', '', 'test');
-        $this->assertEquals('<iframe src="http://test.de" name="test"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', '', 'test');
+        $this->assertEquals('<iframe src="http://test.de" name="test"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
@@ -88,18 +89,18 @@ class IframeTest extends UnitTestCase
      * @test
      */
     public function oneSanBoxValueSetCorrectlyIfProvided() {
-        $iframe = new Iframe('http://test.de', '', '', 0, 0, 'allow-forms');
-        $this->assertEquals('<iframe src="http://test.de" sandbox="allow-forms"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0, 'allow-forms');
+        $this->assertEquals('<iframe src="http://test.de" sandbox="allow-forms"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function multipleSanBoxValueSetCorrectlyIfProvided() {
-        $iframe = new Iframe('http://test.de', '', '', 0, 0,
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0,
             'allow-forms, allow-popups,     allow-scripts');
         $this->assertEquals('<iframe src="http://test.de" sandbox="allow-forms allow-popups allow-scripts"></iframe>',
-             $iframe->generateHtmlTag());
+             $this->iframe->generateHtmlTag());
     }
 
     /**
@@ -126,54 +127,141 @@ class IframeTest extends UnitTestCase
      * @test
      */
     public function notIntegerIgnoredAsWidth() {
-        $iframe = new Iframe('http://test.de', '', '', 'hundred');
-        $this->assertEquals('<iframe src="http://test.de"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', '', '', 'hundred');
+        $this->assertEquals('<iframe src="http://test.de"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function notIntegerIgnoredAsHeight() {
-        $iframe = new Iframe('http://test.de', '', '', 0, 'hundred');
-        $this->assertEquals('<iframe src="http://test.de"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 'hundred');
+        $this->assertEquals('<iframe src="http://test.de"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function correctIntegerAcceptedAsWidth() {
-        $iframe = new Iframe('http://test.de', '', '', '150');
-        $this->assertEquals('<iframe src="http://test.de" width="150"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', '', '', '150');
+        $this->assertEquals('<iframe src="http://test.de" width="150"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function correctIntegerAcceptedAsHeight() {
-        $iframe = new Iframe('http://test.de', '', '', 0, '111');
-        $this->assertEquals('<iframe src="http://test.de" height="111"></iframe>',  $iframe->generateHtmlTag());
+        $this->iframe = new Iframe('http://test.de', '', '', 0, '111');
+        $this->assertEquals('<iframe src="http://test.de" height="111"></iframe>',  $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function allowPaymentRequestCanSetCorrectly() {
-        $iframe = new Iframe('http://test.de', '', '', 0, 0, '', true);
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0, '', true);
         $this->assertEquals('<iframe src="http://test.de" allowpaymentrequest="allowpaymentrequest"></iframe>',
-             $iframe->generateHtmlTag());
+             $this->iframe->generateHtmlTag());
     }
 
     /**
      * @test
      */
     public function allowFullScreenCanSetCorrectly() {
-        $iframe = new Iframe('http://test.de', '', '', 0, 0, '', 0, true);
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0, '', 0, true);
         $this->assertEquals('<iframe src="http://test.de" allowfullscreen="allowfullscreen"></iframe>',
-             $iframe->generateHtmlTag());
+             $this->iframe->generateHtmlTag());
     }
+
+    /**
+     * @test
+     */
+    public function allowPaymentRequestCanBeSet() {
+        $this->iframe = new Iframe('http://test.de');
+        $this->iframe->setAllowPaymentRequest("1");
+        $this->assertEquals(true,
+            $this->iframe->isAllowPaymentRequest());
+    }
+
+
+    /**
+     * @test
+     */
+    public function allowFullScreenCanBeSet() {
+        $this->iframe = new Iframe('http://test.de');
+        $this->iframe->setAllowFullScreen(true);
+        $this->assertEquals(true,
+            $this->iframe->isAllowFullScreen());
+    }
+
+    /**
+     * @test
+     */
+    public function srcCannotBeChangedToAnInvalidValue() {
+        $this->setExpectedException(InvalidValueException::class,
+            'Host cannot be extracted from the src value "test"',
+            1505632671);
+        $this->iframe = new Iframe('http://test.de');
+        $this->iframe->setSrc('test');
+    }
+
+    /**
+     * @test
+     */
+    public function sandboxCannotChangedToInvalidValues() {
+        $this->setExpectedException(InvalidValueException::class,
+            'Not allowed value "test" for the attribute sandbox.',
+            1505656673);
+        $this->iframe = new Iframe('http://test.de');
+        $this->iframe->setSandbox('allow-popups,test');
+    }
+
+    /**
+     * @test
+     */
+    public function heightCannotBeChangedToAnInvalidValue() {
+        $this->setExpectedException(InvalidValueException::class,
+            'Height should be a positive integer or zero, "-11" given',
+            1505632672);
+        $this->iframe = new Iframe('https://www.test.de');
+        $this->iframe->setHeight(-11);
+    }
+
+    /**
+     * @test
+     */
+    public function widthCannotBeChangedToAnInvalidValue() {
+        $this->setExpectedException(InvalidValueException::class,
+            'Width should be a positive integer or zero, "-13" given',
+            1505632672);
+        $this->iframe = new Iframe('https://www.test.de');
+        $this->iframe->setWidth(-13);
+    }
+
+    /**
+     * @test
+     */
+    public function classCanBeChanged() {
+
+        $this->iframe = new Iframe('https://www.test.de', "test1");
+        $this->iframe->setClass("test2");
+        $this->assertEquals('test2', $this->iframe->getClass());
+    }
+
+    /**
+     * @test
+     */
+    public function nameCanBeChanged() {
+
+        $this->iframe = new Iframe('https://www.test.de', "", "test1");
+        $this->iframe->setName("test2");
+        $this->assertEquals('test2', $this->iframe->getName());
+    }
+
 
     public function tearDown()
     {
         parent::tearDown();
+        unset($this->iframe);
     }
 }
