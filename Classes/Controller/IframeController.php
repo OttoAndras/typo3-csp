@@ -15,6 +15,12 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class IframeController extends ActionController
 {
 
+    /**
+     * Renders an Iframe tag as a string.
+     * There is no view for this action!
+     *
+     * @return string
+     */
     public function renderAction() {
         $iframe = '';
 
