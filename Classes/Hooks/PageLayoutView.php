@@ -33,14 +33,14 @@ class PageLayoutView implements PageLayoutViewDrawItemHookInterface  {
         }
         $drawItem = false;
 
-        $flexform = GeneralUtility::xml2array($row['pi_flexform']);
+        $flexform = $this->convertFlexFormToArray($row['pi_flexform']);
 
         if(isset($flexform['data']['main']['lDEF'])) {
             $mainSettings = $flexform['data']['main']['lDEF'];
 
             $attributes = ['src', 'name', 'class', 'sandbox', 'allowFullScreen', 'allowPaymentRequest', 'dataAttributes'];
 
-            $itemContent .= $this->addAttribute($attributes, $mainSettings);
+            $itemContent .= $this->addAttributes($attributes, $mainSettings);
 
             try {
                 DataAttribute::generateAttributesFromString($mainSettings['settings.iframe.dataAttributes']['vDEF']);
@@ -56,10 +56,20 @@ class PageLayoutView implements PageLayoutViewDrawItemHookInterface  {
 
             $attributes = ['class', 'width', 'height'];
 
-            $itemContent .= $this->addAttribute($attributes, $styleSettings);
+            $itemContent .= $this->addAttributes($attributes, $styleSettings);
         }
 
         $headerContent = '<b>Iframe</b><br>';
+    }
+
+    /**
+     * Converts a flexform xml to an array
+     *
+     * @param string $flexForm
+     * @return mixed
+     */
+    protected function convertFlexFormToArray($flexForm) {
+        return GeneralUtility::xml2array($flexForm);
     }
 
     /**
@@ -69,7 +79,7 @@ class PageLayoutView implements PageLayoutViewDrawItemHookInterface  {
      * @param array $settings
      * @return string
      */
-    private function addAttribute($attributes, $settings) {
+    private function addAttributes($attributes, $settings) {
         $content = '';
 
         foreach ($attributes as $attribute) {

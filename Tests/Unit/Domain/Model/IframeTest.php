@@ -22,7 +22,9 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 class IframeTest extends UnitTestCase
 {
 
+    /** @var Iframe */
     protected $iframe = null;
+
     /**
      * Setup global$
      */
@@ -313,6 +315,16 @@ class IframeTest extends UnitTestCase
         $this->iframe->setDataAttributes('data-test2: 2');
         $this->assertEquals('1',
             count($this->iframe->getDataAttributes()));
+    }
+
+    /**
+     * @test
+     */
+    public function dataAttributesCanNotBeChangedToInvalidValue() {
+
+        $this->iframe = new Iframe('http://test.de', '', '', 0, 0, '', 0, false, '');
+        $this->iframe->setDataAttributes('<dat>a-t>><st2: 2');
+        $this->assertEquals([],$this->iframe->getDataAttributes());
     }
 
 

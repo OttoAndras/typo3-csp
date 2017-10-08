@@ -233,7 +233,13 @@ class Iframe extends AbstractEntity
      */
     protected function ensureDataAttributes($definition) {
         if($definition) {
-            $this->dataAttributes = DataAttribute::generateAttributesFromString($definition);
+            // If the data attributes cannot be generated because the definition throws an exception
+            // we will set dataAttributes to an empty array.
+            try {
+                $this->dataAttributes = DataAttribute::generateAttributesFromString($definition);
+            } catch (InvalidValueException $e) {
+                $this->dataAttributes = [];
+            }
         }
     }
 
