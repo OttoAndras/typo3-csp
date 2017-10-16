@@ -1,9 +1,9 @@
 
 .. include:: ../Includes.txt
 
-=======================
-Content Security Policy
-=======================
+============================================
+Getting started with Content Security Policy
+============================================
 
 
 The new Content-Security-Policy HTTP response header helps you reduce XSS risks on modern browsers

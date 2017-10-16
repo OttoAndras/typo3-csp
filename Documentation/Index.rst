@@ -20,6 +20,7 @@
 
 .. The following, first section (= headline) is the 'Document Title'.
 
+.. _start:
 
 ======================
 My Public Info Project
@@ -79,7 +80,6 @@ If you want to support this extension be a sponsor!
    GettingStartedWithContentSecurityPolicy/Index
    Concept/Index
    Install/Index
-   TypoScript/Index
    ForIntegrators/Index
    ForEditors/Index
    CompatibilityWithOtherExtensions/Index
