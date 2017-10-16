@@ -88,8 +88,8 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
             $config = $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.'];
 
-            if(isset($config['additionalDomains.'])) {
-                foreach ($config['additionalDomains.'] as $directive => $sources) {
+            if(isset($config['additionalSources.'])) {
+                foreach ($config['additionalSources.'] as $directive => $sources) {
                     foreach ($sources as $source) {
                         $builder->addSourceExpression(rtrim($directive, '.') . self::DIRECTIVE_POSTFIX, $source);
                     }

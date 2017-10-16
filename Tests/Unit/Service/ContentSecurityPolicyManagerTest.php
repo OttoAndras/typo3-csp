@@ -147,7 +147,7 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
         $tsfe = $this->setUpFakeTsfe();
         $tsfe->config['config']['csp.']['enabled'] = 1;
 
-        $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['additionalDomains.'] = [
+        $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['additionalSources.'] = [
             'script' => [
                 '0' => 'self',
                 '10' => 'www.test.de'

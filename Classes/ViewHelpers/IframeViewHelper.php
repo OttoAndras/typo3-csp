@@ -36,6 +36,7 @@ class IframeViewHelper extends AbstractViewHelper
      * @param string $sandbox
      * @param bool $allowFullScreen
      * @param bool $allowPaymentRequest
+     * @param string $dataAttributes
      * @return string
      * @throws InvalidArgumentValueException
      */
@@ -46,11 +47,9 @@ class IframeViewHelper extends AbstractViewHelper
                            $height = 0,
                            $sandbox = '',
                            $allowFullScreen = false,
-                           $allowPaymentRequest = false)
+                           $allowPaymentRequest = false,
+                           $dataAttributes = '')
     {
-        if(!$src) {
-            throw new InvalidArgumentValueException('Src must be provided.', 1505632669);
-        }
 
         return static::renderStatic(
             [
@@ -62,6 +61,7 @@ class IframeViewHelper extends AbstractViewHelper
                 'sandbox' => $sandbox,
                 'allowFullScreen' => $allowFullScreen,
                 'allowPaymentRequest' => $allowPaymentRequest,
+                'dataAttributes' => $dataAttributes,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext

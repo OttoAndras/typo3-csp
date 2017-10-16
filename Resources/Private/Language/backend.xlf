@@ -39,6 +39,9 @@
 			<trans-unit id="flexform.iframe.allowPaymentRequest">
 				<source>Allow payment requests in iframe</source>
 			</trans-unit>
+			<trans-unit id="flexform.iframe.dataAttributes">
+				<source>Data attributes</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

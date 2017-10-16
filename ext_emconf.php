@@ -3,8 +3,8 @@
 $EM_CONF[$_EXTKEY] = [
   'title' => 'CSP: Content Security Policy',
   'description' => 'Generates the Content-Security-Policy Response Header based on the content of the current page',
-  'category' => 'frontend, security',
-  'version' => '0.0.1',
+  'category' => 'misc',
+  'version' => '0.8.1',
   'state' => 'alpha',
   'createDirs' => '',
   'clearcacheonload' => true,
@@ -25,7 +25,7 @@ $EM_CONF[$_EXTKEY] = [
     [
     ],
   ],
-'autoload' =>
+  'autoload' =>
     [
         'psr-4' => [
             'Phpcsp\\Security\\' => 'Resources/Private/php-csp/src/Phpcsp/Security',

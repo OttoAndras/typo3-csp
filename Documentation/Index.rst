@@ -50,6 +50,8 @@ My Public Info Project
 
 
 
+
+
 .. attention::
 
    This extension is currently in an alpha phase. Changes are expected in the later on versions.
@@ -62,6 +64,14 @@ My Public Info Project
 
 An extension to make your frontend secure through the Content Security Policy header.
 
+
+Do you have ideas / issues take a look at the external repository:
+
+`GitHub <https://github.com/OttoAndras/typo3-csp>`__
+
+If you want to support this extension be a sponsor!
+
+`Sponsore the extension <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X4QJWL4GVE86W>`__
 
 
 .. toctree::

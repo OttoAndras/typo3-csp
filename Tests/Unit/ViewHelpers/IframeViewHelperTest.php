@@ -14,6 +14,7 @@
 
 namespace AndrasOtto\Csp\Tests\Unit\Utility;
 
+use AndrasOtto\Csp\Exceptions\InvalidValueException;
 use AndrasOtto\Csp\ViewHelpers\IframeViewHelper;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -32,13 +33,15 @@ class IframeViewHelperTest extends UnitTestCase
     {
         parent::setUp();
         $this->subject = GeneralUtility::makeInstance(IframeViewHelper::class);
+        $renderingContext = GeneralUtility::makeInstance(RenderingContext::class);
+        $this->subject->setRenderingContext($renderingContext);
     }
 
     /**
      * @test
      */
     public function throwsExceptionWithEmptySrc() {
-        $this->setExpectedException(InvalidArgumentValueException::class);
+        $this->setExpectedException(InvalidValueException::class);
         $this->subject->render('');
     }
 
@@ -46,9 +49,6 @@ class IframeViewHelperTest extends UnitTestCase
      * @test
      */
     public function rendersIframeTagCorrectly() {
-        $renderingContext = GeneralUtility::makeInstance(RenderingContext::class);
-        $this->subject->setRenderingContext($renderingContext);
-
         $iframeMarkup = $this->subject->render(
             'https://test.de',
             'test-class multiple',

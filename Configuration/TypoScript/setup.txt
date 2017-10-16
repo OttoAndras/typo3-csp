@@ -50,7 +50,7 @@ plugin.tx_csp.settings {
         }
     }
 
-    additionalDomains {
+    additionalSources {
         default {
             0 = self
         }
