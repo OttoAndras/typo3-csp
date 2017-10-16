@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
   'title' => 'CSP: Content Security Policy',
-  'description' => 'Generates the Content-Security-Policy Response Header based on the content of the current page',
+  'description' => 'Generates the Content-Security-Policy response header based on the content of the page',
   'category' => 'misc',
   'version' => '0.8.1',
   'state' => 'alpha',
