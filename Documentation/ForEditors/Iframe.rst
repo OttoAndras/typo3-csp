@@ -5,7 +5,7 @@ Iframe content element
 
 The element is selectable under the tab "special" in the new content element wizard.
 
-.. figure:: Images/Iframe.jpg
+.. figure:: Images/Iframe.JPG
    :alt: Iframe Preview in backend
    :width: 700
 
