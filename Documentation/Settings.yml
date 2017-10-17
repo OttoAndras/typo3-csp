@@ -6,6 +6,6 @@
 conf.py:
   copyright: 2017
   project: Content Security Policy
-  version: 0.8.2
-  release: 0.8.2
+  version: 0.8.3
+  release: 0.8.3
 ...
