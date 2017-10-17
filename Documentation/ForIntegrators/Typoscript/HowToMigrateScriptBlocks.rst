@@ -12,6 +12,7 @@ There are four different cases to check before you activate the extension.
 The goal is, that your site is able to run without the unsafe-inline and/or unsafe-eval options for script-src.
 
 1) Your own JavaScript files:
+-----------------------------
 
 <script src="https//your_domain.com/js/library.js"></script>
 
@@ -27,6 +28,7 @@ plugin.tx_csp.settings.additionalSources.script.1 = subdomain.your_domain.com
 (You can add multiple domains at once or with different indexes)
 
 2) External JavaScript files
+----------------------------
 
 Do you reference external files like jQuery or Google Analytics?
 Then you need to enable these domain for the script-src directive.
@@ -52,9 +54,12 @@ plugin.tx_csp.settings.presets.googleMaps.enabled = 1
 *You can define your own presets. Please read the* **Typoscript / Settings** *section.*
 
 3) Inline scripts
+-----------------
 
 If you have <script> </script> declarations in your markup you need to change the generation of them.
+
 3a) If you have a classic TypoScript like this:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -75,8 +80,8 @@ If you have <script> </script> declarations in your markup you need to change th
 
 You can make two easy change to make this declaration valid for your content security policy header.
 
-a) Change the TEXT to a new content object (introduced by this extension): SCRIPT
-b) Delete the <script> tag declartion it will be added automatically.
+- Change the TEXT to a new content object (introduced by this extension): SCRIPT
+- Delete the <script> tag declartion it will be added automatically.
 
 Result:
 ::
@@ -95,6 +100,7 @@ Result:
     )
 
 3b) In your Fluid template
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you have some kind of script in your fluid. You can use the ViewHelper csp:script. The script above would look like
 this if you use inside fluid.
@@ -116,6 +122,7 @@ this if you use inside fluid.
     </csp:script>
 
 3c) Hook or a DataProcessor or a userFunc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you generate a script like string in some php code. You can use the getValidScriptTag static method
 of the ScriptUtility class.
@@ -130,6 +137,7 @@ of the ScriptUtility class.
    Script should not have <script> and </script> in the string, it should contain only your JavaScript code only.
 
 4) Action declaration (f.i. onclick) or "javascript:" links.
+------------------------------------------------------------
 
 These are also blocked by the content security policy and currently it is hard to enable them one by one.
 It is also recommended not to write code like these but use javascript or jQuery and register eventListeners in your

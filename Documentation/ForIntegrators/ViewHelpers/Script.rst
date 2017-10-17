@@ -13,13 +13,6 @@ will be trimmed and compressed and a hash value will be registered in the conten
 Properties
 ----------
 
-All the :ref:`universal tag attributes <UniversalTagAttributes>`
-
-All the :ref:`universal form field attributes <UniversalFormFieldAttributes>`
-
-Exclusive properties for the HTML-Element
-#########################################
-
 hashMethod
 ~~~~~~~~~~
 :aspect:`Variable type`

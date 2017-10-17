@@ -11,13 +11,6 @@ security policy header.
 Properties
 ----------
 
-All the :ref:`universal tag attributes <UniversalTagAttributes>`
-
-All the :ref:`universal form field attributes <UniversalFormFieldAttributes>`
-
-Exclusive properties for the HTML-Element
-#########################################
-
 src
 ~~~
 :aspect:`Variable type`

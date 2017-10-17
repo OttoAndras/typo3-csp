@@ -1,7 +1,6 @@
 
 .. include:: ../Includes.txt
 
-============================================
 Getting started with Content Security Policy
 ============================================
 

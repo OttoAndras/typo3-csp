@@ -22,9 +22,9 @@
 
 .. _start:
 
-======================
-My Public Info Project
-======================
+=======================
+Content Security Policy
+=======================
 
 
 .. The following is 'field list' which is rendered as a horizontal table.
@@ -38,7 +38,7 @@ My Public Info Project
           csp
 
 :Keywords:
-          security, frontend, forEditors, forIntegrators, forBeginners, forIntermediates
+          security, frontend
 
 :Author:
           András Ottó
