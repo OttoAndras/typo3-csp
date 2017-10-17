@@ -51,8 +51,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = array_merge($GLOBALS['TYPO
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     'mod {
-     wizards.newContentElement.wizardItems.csp {
-       header = LLL:EXT:csp/Resources/Private/Language/newContentElements.xlf:tab.csp
+     wizards.newContentElement.wizardItems.special {
        elements {
          csp_iframe {
            icon = ' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('csp') . 'Resources/Public/Backend/Images/csp.png
