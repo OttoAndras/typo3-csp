@@ -1,9 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ottoa
- * Date: 05/10/2017
- * Time: 16:40
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
  */
 
 namespace AndrasOtto\Csp\Domain\Model;
@@ -246,7 +252,7 @@ class Iframe extends AbstractEntity
     /**
      * @return string
      */
-    public function getSrc(): string
+    public function getSrc()
     {
         return $this->src;
     }
@@ -255,7 +261,7 @@ class Iframe extends AbstractEntity
      * @param string $src
      * @return void
      */
-    public function setSrc(string $src)
+    public function setSrc($src)
     {
         $this->ensureSrc($src);
     }
@@ -263,7 +269,7 @@ class Iframe extends AbstractEntity
     /**
      * @return string
      */
-    public function getClass(): string
+    public function getClass()
     {
         return $this->class;
     }
@@ -271,7 +277,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $class
      */
-    public function setClass(string $class)
+    public function setClass($class)
     {
         $this->class = $class;
     }
@@ -279,7 +285,7 @@ class Iframe extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -287,7 +293,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -295,7 +301,7 @@ class Iframe extends AbstractEntity
     /**
      * @return int
      */
-    public function getWidth(): int
+    public function getWidth()
     {
         return $this->width;
     }
@@ -304,7 +310,7 @@ class Iframe extends AbstractEntity
      * @param int $width
      * @return void
      */
-    public function setWidth(int $width)
+    public function setWidth($width)
     {
         $this->ensureWidth($width);
     }
@@ -312,7 +318,7 @@ class Iframe extends AbstractEntity
     /**
      * @return int
      */
-    public function getHeight(): int
+    public function getHeight()
     {
         return $this->height;
     }
@@ -320,7 +326,7 @@ class Iframe extends AbstractEntity
     /**
      * @param int $height
      */
-    public function setHeight(int $height)
+    public function setHeight($height)
     {
         $this->ensureHeight($height);
     }
@@ -328,7 +334,7 @@ class Iframe extends AbstractEntity
     /**
      * @return array
      */
-    public function getSandbox(): array
+    public function getSandbox()
     {
         return $this->sandbox;
     }
@@ -336,7 +342,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $sandbox
      */
-    public function setSandbox(string $sandbox)
+    public function setSandbox($sandbox)
     {
         $this->ensureSandboxValues($sandbox);
     }
@@ -344,7 +350,7 @@ class Iframe extends AbstractEntity
     /**
      * @return boolean
      */
-    public function isAllowFullScreen(): bool
+    public function isAllowFullScreen()
     {
         return $this->allowFullScreen;
     }
@@ -352,7 +358,7 @@ class Iframe extends AbstractEntity
     /**
      * @param boolean $allowFullScreen
      */
-    public function setAllowFullScreen(bool $allowFullScreen)
+    public function setAllowFullScreen($allowFullScreen)
     {
         $this->ensureAllowFullScreen(boolval($allowFullScreen));
     }
@@ -360,7 +366,7 @@ class Iframe extends AbstractEntity
     /**
      * @return boolean
      */
-    public function isAllowPaymentRequest(): bool
+    public function isAllowPaymentRequest()
     {
         return $this->allowPaymentRequest;
     }
@@ -368,7 +374,7 @@ class Iframe extends AbstractEntity
     /**
      * @param boolean $allowPaymentRequest
      */
-    public function setAllowPaymentRequest(bool $allowPaymentRequest)
+    public function setAllowPaymentRequest($allowPaymentRequest)
     {
         $this->ensureAllowPaymentRequest(boolval($allowPaymentRequest));
     }
@@ -376,7 +382,7 @@ class Iframe extends AbstractEntity
     /**
      * @return array
      */
-    public function getDataAttributes(): array
+    public function getDataAttributes()
     {
         return $this->dataAttributes;
     }
@@ -384,7 +390,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $dataAttributes
      */
-    public function setDataAttributes(string $dataAttributes)
+    public function setDataAttributes($dataAttributes)
     {
         $this->ensureDataAttributes($dataAttributes);
     }

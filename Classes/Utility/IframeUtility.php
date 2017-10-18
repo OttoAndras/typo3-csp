@@ -16,9 +16,6 @@ namespace AndrasOtto\Csp\Utility;
 
 
 use AndrasOtto\Csp\Domain\Model\Iframe;
-use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
-use Phpcsp\Security\ContentSecurityPolicyHeaderBuilder;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
 
 class IframeUtility
 {
@@ -48,15 +45,15 @@ class IframeUtility
      * @return string
      */
     static public function generateIframeTagFromConfigArray($conf){
-        $src = $conf['src'] ?? '';
-        $class = $conf['class'] ?? '';
-        $name = $conf['name'] ?? '';
-        $width = $conf['width'] ?? 0;
-        $height = $conf['height'] ?? 0;
-        $sandbox = $conf['sandbox'] ?? '';
-        $allowFullScreen = $conf['allowFullScreen'] ?? '';
-        $allowPaymentRequest = $conf['allowPaymentRequest'] ?? '';
-        $dataAttributes = $conf['dataAttributes'] ?? '';
+        $src = isset($conf['src']) ? $conf['src'] : '';
+        $class = isset($conf['class']) ? $conf['class'] : '';
+        $name = isset($conf['name']) ? $conf['name'] : '';
+        $width = isset($conf['width']) ? $conf['width'] : 0;
+        $height = isset($conf['height']) ? $conf['height'] : 0;
+        $sandbox = isset($conf['sandbox']) ? $conf['sandbox'] : '';
+        $allowFullScreen = isset($conf['allowFullScreen']) ? $conf['allowFullScreen'] : '';
+        $allowPaymentRequest = isset($conf['allowPaymentRequest']) ? $conf['allowPaymentRequest'] : '';
+        $dataAttributes = isset($conf['dataAttributes']) ? $conf['dataAttributes'] : '';
 
 
         $iframe = new Iframe($src, $class, $name, $width, $height, $sandbox, $allowFullScreen, $allowPaymentRequest, $dataAttributes);

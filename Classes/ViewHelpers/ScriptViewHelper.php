@@ -1,15 +1,18 @@
 <?php
 namespace AndrasOtto\Csp\ViewHelpers;
 
-/*                                                                        *
- * This script is backported from the TYPO3 Flow package "TYPO3.Fluid".   *
- *                                                                        *
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU Lesser General Public License, either version 3   *
- *  of the License, or (at your option) any later version.                *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 use AndrasOtto\Csp\Utility\ScriptUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
@@ -77,7 +80,7 @@ class ScriptViewHelper extends AbstractViewHelper implements CompilableInterface
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $output = $renderChildrenClosure();
-        $hashMethod = $arguments['hashMethod'] ?? '';
+        $hashMethod = isset($arguments['hashMethod']) ? $arguments['hashMethod'] : '';
 
         if($hashMethod) {
             $output = ScriptUtility::getValidScriptTag($output, $hashMethod, true);

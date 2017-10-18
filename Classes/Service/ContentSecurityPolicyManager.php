@@ -49,8 +49,9 @@ class ContentSecurityPolicyManager implements SingletonInterface
      * @throws InvalidClassException
      */
     static private function createNewBuilderInstance() {
-        $className = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['csp']['ContentSecurityPolicyHeaderBuilder']
-            ?? ContentSecurityPolicyHeaderBuilder::class;
+        $className = isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['csp']['ContentSecurityPolicyHeaderBuilder'])
+            ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['csp']['ContentSecurityPolicyHeaderBuilder']
+            : ContentSecurityPolicyHeaderBuilder::class;
 
         /** @var ContentSecurityPolicyHeaderBuilderInterface $instance */
         $instance = GeneralUtility::makeInstance($className);
@@ -80,7 +81,9 @@ class ContentSecurityPolicyManager implements SingletonInterface
      */
     static public function addTypoScriptSettings($tsfe) {
 
-        $enabled = $tsfe->config['config']['csp.']['enabled'] ?? false;
+        $enabled = isset($tsfe->config['config']['csp.']['enabled'])
+            ? boolval($tsfe->config['config']['csp.']['enabled'])
+            : false;
 
         if($enabled) {
 
@@ -99,7 +102,7 @@ class ContentSecurityPolicyManager implements SingletonInterface
                 && is_array($config['presets.'])) {
 
                 foreach ($config['presets.'] as $preSet) {
-                    $preSetEnabled = $preSet['enabled'] ?? false;
+                    $preSetEnabled = isset($preSet['enabled']) ? boolval($preSet['enabled']) : false;
                     if ($preSetEnabled
                         && isset($preSet['rules.'])
                     ) {
@@ -120,8 +123,8 @@ class ContentSecurityPolicyManager implements SingletonInterface
         $responseHeader = '';
         $headers = self::getBuilder()->getHeaders('include');
         if(count($headers) > 0) {
-            $name = $headers[0]['name'] ?? '';
-            $value = $headers[0]['value'] ?? '';
+            $name = isset($headers[0]['name']) ? $headers[0]['name'] : '';
+            $value = isset($headers[0]['value']) ? $headers[0]['value'] : '';;
             
             if($name) {
                 $responseHeader = $name . ': ' . $value;

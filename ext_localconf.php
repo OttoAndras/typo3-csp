@@ -15,8 +15,8 @@
 
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['csp_header_cache'])) {
 
-    $defaultLifetime = $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']
-        ['cacheConfigurations']['cache_page']['options']['defaultLifetime'] ?? 86400;
+    $defaultLifetime = (isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_page']['options']['defaultLifetime'])
+        ? $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_page']['options']['defaultLifetime'] : 86400);
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['csp_header_cache'] = [
         'backend' => \TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,

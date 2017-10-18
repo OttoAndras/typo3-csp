@@ -40,7 +40,9 @@ class TypoScriptFrontendControllerHook
         if(isset($pObjArray['pObj'])) {
             /** @var TypoScriptFrontendController $typoScriptFrontendController */
             $typoScriptFrontendController = $pObjArray['pObj'];
-            $enabled = $typoScriptFrontendController->config['config']['csp.']['enabled'] ?? false;
+            $enabled = isset($typoScriptFrontendController->config['config']['csp.']['enabled'])
+                ? boolval($typoScriptFrontendController->config['config']['csp.']['enabled'])
+                : false;
 
             if($enabled) {
                 $cacheIdentifier = $typoScriptFrontendController->newHash;
