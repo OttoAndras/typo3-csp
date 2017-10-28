@@ -57,6 +57,7 @@ plugin.tx_csp.settings {
 
         style {
             0 = self
+            1 = unsafe-inline
         }
 
         script {
