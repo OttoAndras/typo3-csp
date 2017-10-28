@@ -31,7 +31,7 @@ plugin.tx_csp.settings {
         }
 
         jQuery {
-            enabed = 0
+            enabled = 0
             script = ajax.googleapis.com
         }
     }
