@@ -15,6 +15,7 @@
 namespace AndrasOtto\Csp\Tests\Unit\Model;
 
 
+use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Domain\Model\Script;
 use AndrasOtto\Csp\Exceptions\InvalidValueException;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
@@ -47,7 +48,7 @@ class ScriptTest extends UnitTestCase
     public function generateScriptsWithNoTrimScriptSet() {
         $script = new Script('    
         alert("fine");    
-        ', Script::SHA_256, false);
+        ', HashTypes::SHA_256, false);
 
         $this->assertEquals('<script>    
         alert("fine");    
@@ -83,7 +84,7 @@ class ScriptTest extends UnitTestCase
      */
     public function sha512AddedCorrectly() {
         ContentSecurityPolicyManager::resetBuilder();
-        $script = new Script('var foo = "314"', Script::SHA_512);
+        $script = new Script('var foo = "314"', HashTypes::SHA_512);
         $script->generateHtmlTag();
         $headers = ContentSecurityPolicyManager::extractHeaders();
         $this->assertEquals(

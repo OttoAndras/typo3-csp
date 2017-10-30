@@ -15,8 +15,8 @@
 namespace AndrasOtto\Csp\Domain\Model;
 
 
+use AndrasOtto\Csp\Constants\Directives;
 use AndrasOtto\Csp\Exceptions\InvalidValueException;
-use AndrasOtto\Csp\Service\ContentSecurityPolicyHeaderBuilder;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -408,7 +408,7 @@ class Iframe extends AbstractEntity
 
             //Need to add the src host to the content security policy header in the moment as the iframe generated.
             ContentSecurityPolicyManager::getBuilder()->addSourceExpression(
-                ContentSecurityPolicyHeaderBuilder::DIRECTIVE_FRAME_SRC, $this->srcHost);
+                Directives::FRAME_SRC, $this->srcHost);
         }
 
         if($this->getName()) {

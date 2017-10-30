@@ -14,6 +14,7 @@
 
 namespace AndrasOtto\Csp\Tests\Unit\Utility;
 
+use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Domain\Model\Script;
 use AndrasOtto\Csp\ViewHelpers\ScriptViewHelper;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
@@ -57,7 +58,7 @@ class ScriptViewHelperTest extends UnitTestCase
         $this->subject->setRenderChildrenClosure($closure);
 
         $scriptMarkup = $this->subject->render(
-            Script::SHA_256
+            HashTypes::SHA_256
         );
 
         $this->assertEquals(
@@ -80,7 +81,7 @@ class ScriptViewHelperTest extends UnitTestCase
         $this->subject->setRenderChildrenClosure($closure);
 
         $scriptMarkup = $this->subject->render(
-            Script::SHA_256
+            HashTypes::SHA_256
             );
 
         $this->assertEquals(

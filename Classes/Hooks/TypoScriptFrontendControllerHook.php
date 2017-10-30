@@ -17,6 +17,7 @@ namespace AndrasOtto\Csp\Hooks;
 
 
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
+use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -58,7 +59,13 @@ class TypoScriptFrontendControllerHook
 
                 $headers = ContentSecurityPolicyManager::extractHeaders();
 
-                if (!$typoScriptFrontendController->no_cache) {
+                /** @var FrontendBackendUserAuthentication $beUser */
+                $beUser = $GLOBALS['BE_USER'];
+
+                //If the admin panel active, the header can not be cached
+                $admPanelActive = !is_null($beUser) && $beUser->isAdminPanelVisible();
+
+                if (!$typoScriptFrontendController->no_cache && !$admPanelActive) {
 
                     if ($cspHeaderCache->has($cacheIdentifier)) {
                         $headers = $cspHeaderCache->get($cacheIdentifier);

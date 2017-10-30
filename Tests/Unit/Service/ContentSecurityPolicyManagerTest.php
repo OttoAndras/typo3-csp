@@ -15,9 +15,11 @@
 namespace AndrasOtto\Csp\Tests\Unit\Service;
 
 
+use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyHeaderBuilderInterface;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use AndrasOtto\Csp\Exceptions\InvalidClassException;
+use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -57,8 +59,23 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
                 ]
             ]
         ];
-
+        $GLOBALS['TSFE'] = $tsfe;
         return $tsfe;
+    }
+
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    private function setUpFakeBeUserAuthentication($admPanelActive) {
+        $beUser = new FrontendBackendUserAuthentication();
+
+        $beUser->extAdminConfig = ['hide' => false];
+        $beUser->extAdmEnabled = true;
+
+        $GLOBALS['TSFE']->config['config']['admPanel'] = $admPanelActive;
+
+        $GLOBALS['BE_USER'] = $beUser;
     }
 
     /**
@@ -128,6 +145,8 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
      */
     public function addTypoScriptSettingsAddsCorrectPresets() {
         $tsfe = $this->setUpFakeTsfe();
+        $this->setUpFakeBeUserAuthentication(false);
+
         $tsfe->config['config']['csp.']['enabled'] = 1;
 
         ContentSecurityPolicyManager::addTypoScriptSettings($tsfe);
@@ -145,6 +164,7 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
      */
     public function addTypoScriptSettingsAddsAdditionalDomains() {
         $tsfe = $this->setUpFakeTsfe();
+        $this->setUpFakeBeUserAuthentication(false);
         $tsfe->config['config']['csp.']['enabled'] = 1;
 
         $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['additionalSources.'] = [
@@ -159,6 +179,27 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
 
         $this->assertSame(
             'Content-Security-Policy: script-src \'self\' www.test.de www.google-analytics.com stats.g.doubleclick.net '
+            . 'https://stats.g.doubleclick.net; img-src www.google-analytics.com '
+            . 'stats.g.doubleclick.net https://stats.g.doubleclick.net;',
+            $headers);
+    }
+
+    /**
+     * @test
+     */
+    public function overrideHashIfAdmPanelSet() {
+        $tsfe = $this->setUpFakeTsfe();
+        $this->setUpFakeBeUserAuthentication(true);
+
+        $tsfe->config['config']['csp.']['enabled'] = 1;
+
+        ContentSecurityPolicyManager::getBuilder()->addHash(HashTypes::SHA_256, "test");
+
+        ContentSecurityPolicyManager::addTypoScriptSettings($tsfe);
+        $headers = ContentSecurityPolicyManager::extractHeaders();
+
+        $this->assertSame(
+            'Content-Security-Policy: script-src \'unsafe-inline\' \'unsafe-eval\' www.google-analytics.com stats.g.doubleclick.net '
             . 'https://stats.g.doubleclick.net; img-src www.google-analytics.com '
             . 'stats.g.doubleclick.net https://stats.g.doubleclick.net;',
             $headers);

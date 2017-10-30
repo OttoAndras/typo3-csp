@@ -15,7 +15,9 @@
 namespace AndrasOtto\Csp\Service;
 
 
+use AndrasOtto\Csp\Constants\Directives;
 use AndrasOtto\Csp\Exceptions\InvalidClassException;
+use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -89,6 +91,16 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
             $builder = self::getBuilder();
 
+            //AdmPanel
+            /** @var FrontendBackendUserAuthentication $beUser */
+            $beUser = $GLOBALS['BE_USER'];
+
+            if(!is_null($beUser) && $beUser->isAdminPanelVisible()) {
+                $builder->resetDirective(Directives::SCRIPT_SRC);
+                $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-inline');
+                $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-eval');
+            }
+
             $config = $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.'];
 
             if(isset($config['additionalSources.'])) {
@@ -121,16 +133,14 @@ class ContentSecurityPolicyManager implements SingletonInterface
      */
     static public function extractHeaders() {
         $responseHeader = '';
-        $headers = self::getBuilder()->getHeaders('include');
-        if(count($headers) > 0) {
-            $name = isset($headers[0]['name']) ? $headers[0]['name'] : '';
-            $value = isset($headers[0]['value']) ? $headers[0]['value'] : '';;
-            
-            if($name) {
-                $responseHeader = $name . ': ' . $value;
-            }
+        $headers = self::getBuilder()->getHeader();
+        if(count($headers) > 1) {
+            $name = isset($headers['name']) ? $headers['name'] : '';
+            $value = isset($headers['value']) ? $headers['value'] : '';;
+
+            $responseHeader = $name . ': ' . $value;
         }
-        
+
         return $responseHeader;
     }
 }

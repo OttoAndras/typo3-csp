@@ -15,6 +15,7 @@
 namespace AndrasOtto\Csp\Tests\Unit\ContentObject;
 
 
+use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\ContentObject\ScriptContentObject;
 use AndrasOtto\Csp\Domain\Model\Script;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
@@ -47,7 +48,7 @@ class ScriptContentObjectTest extends UnitTestCase
      * @param int $trimScript
      * @return array
      */
-    private function setUpConfArray($hashMethod = Script::SHA_512, $trimScript = 0) {
+    private function setUpConfArray($hashMethod = HashTypes::SHA_512, $trimScript = 0) {
         $conf = [
             'value' => '  alert("ok");  ',
             'hashMethod' => $hashMethod,
@@ -71,7 +72,7 @@ class ScriptContentObjectTest extends UnitTestCase
      * @test
      */
     public function trimScriptTrimsTheTextLeftAndRight() {
-        $conf = $this->setUpConfArray(Script::SHA_256, 1);
+        $conf = $this->setUpConfArray(HashTypes::SHA_256, 1);
         $scriptTag = $this->subject->render($conf);
 
         $this->assertEquals('<script>alert("ok");</script>', $scriptTag);

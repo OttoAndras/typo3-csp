@@ -41,7 +41,6 @@ $EM_CONF[$_EXTKEY] = [
   'autoload' =>
     [
         'psr-4' => [
-            'Phpcsp\\Security\\' => 'Resources/Private/php-csp/src/Phpcsp/Security',
             'AndrasOtto\\Csp\\' => 'Classes'
         ]
     ],

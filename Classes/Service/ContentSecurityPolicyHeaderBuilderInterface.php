@@ -18,10 +18,10 @@ interface ContentSecurityPolicyHeaderBuilderInterface
     public function addSourceExpression($directive, $expression);
 
     /**
-     * @param string $includeLegacy
-     * @return array
+     * @param string $directive
+     * @param string $expression
      */
-    public function getHeaders($includeLegacy);
+    public function addNonce($directive, $expression);
 
     /**
      * Add a hash value to the script-src.
@@ -30,4 +30,18 @@ interface ContentSecurityPolicyHeaderBuilderInterface
      * @param string $hash
      */
     public function addHash($type, $hash);
+
+    /**
+     * Deletes the entries of the given directive
+     *
+     * @param string $directive
+     */
+    public function resetDirective($directive);
+
+    /**
+     * @return array
+     */
+    public function getHeader();
+
+
 }

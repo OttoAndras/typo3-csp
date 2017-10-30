@@ -15,24 +15,22 @@
 namespace AndrasOtto\Csp\Domain\Model;
 
 
+use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Exceptions\InvalidValueException;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Script extends AbstractEntity
 {
-    const SHA_256 = 'sha256';
-    const SHA_512 = 'sha512';
-
     protected $allowedHashMethods = [
-        self::SHA_256,
-        self::SHA_512
+        HashTypes::SHA_256,
+        HashTypes::SHA_512
     ];
 
     /**
      * @var string
      */
-    protected $hashMethod = self::SHA_256;
+    protected $hashMethod = HashTypes::SHA_256;
 
     /**
      * @var string
@@ -50,7 +48,7 @@ class Script extends AbstractEntity
      * @param string $hashMethod
      * @param bool $trimScript
      */
-    public function __construct($script, $hashMethod = self::SHA_256, $trimScript = true)
+    public function __construct($script, $hashMethod = HashTypes::SHA_256, $trimScript = true)
     {
         $this->trimScript = boolval($trimScript);
         $this->script = $this->trimScript($script);
@@ -100,7 +98,7 @@ class Script extends AbstractEntity
      * @param string $method The sha algorithm sha256 or sha512. Default sha256
      * @return string
      */
-    protected function calculateScriptHash($script, $method = self::SHA_256) {
+    protected function calculateScriptHash($script, $method = HashTypes::SHA_256) {
         return hash($method, $script, true);
     }
 
