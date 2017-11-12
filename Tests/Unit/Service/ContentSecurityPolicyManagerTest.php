@@ -91,10 +91,10 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
      */
     public function invalidClassExceptionIfBuilderInterfaceNotImplemented() {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['csp']['ContentSecurityPolicyHeaderBuilder'] =
-           "Phpcsp\\Security\\ContentSecurityPolicyHeaderBuilder";
+           "AndrasOtto\\Csp\\Tests\\Unit\\Service\\ContentSecurityPolicyManagerTest";
 
         $this->setExpectedException(InvalidClassException::class,
-            'The class "Phpcsp\\Security\\ContentSecurityPolicyHeaderBuilder" must implement the interface ContentSecurityPolicyHeaderBuilderInterface',
+            'The class "AndrasOtto\\Csp\\Tests\\Unit\\Service\\ContentSecurityPolicyManagerTest" must implement the interface ContentSecurityPolicyHeaderBuilderInterface',
             1505944587);
         ContentSecurityPolicyManager::resetBuilder();
     }
@@ -179,27 +179,6 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
 
         $this->assertSame(
             'Content-Security-Policy: script-src \'self\' www.test.de www.google-analytics.com stats.g.doubleclick.net '
-            . 'https://stats.g.doubleclick.net; img-src www.google-analytics.com '
-            . 'stats.g.doubleclick.net https://stats.g.doubleclick.net;',
-            $headers);
-    }
-
-    /**
-     * @test
-     */
-    public function overrideHashIfAdmPanelSet() {
-        $tsfe = $this->setUpFakeTsfe();
-        $this->setUpFakeBeUserAuthentication(true);
-
-        $tsfe->config['config']['csp.']['enabled'] = 1;
-
-        ContentSecurityPolicyManager::getBuilder()->addHash(HashTypes::SHA_256, "test");
-
-        ContentSecurityPolicyManager::addTypoScriptSettings($tsfe);
-        $headers = ContentSecurityPolicyManager::extractHeaders();
-
-        $this->assertSame(
-            'Content-Security-Policy: script-src \'unsafe-inline\' \'unsafe-eval\' www.google-analytics.com stats.g.doubleclick.net '
             . 'https://stats.g.doubleclick.net; img-src www.google-analytics.com '
             . 'stats.g.doubleclick.net https://stats.g.doubleclick.net;',
             $headers);

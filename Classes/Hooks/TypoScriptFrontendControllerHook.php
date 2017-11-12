@@ -16,6 +16,8 @@
 namespace AndrasOtto\Csp\Hooks;
 
 
+use AndrasOtto\Csp\Constants\Directives;
+use AndrasOtto\Csp\Service\ContentSecurityPolicyHeaderBuilderInterface;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -26,17 +28,12 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class TypoScriptFrontendControllerHook
 {
-
-    protected function sendHeaders($headers) {
-        header($headers, true);
-    }
-
     /**
      * Renders and caches (if cache enabled) the content security headers
      * 
      * @param $pObjArray
      */
-    public function contentPostProcOutput($pObjArray)
+    public function contentPostProcAll($pObjArray)
     {
         if(isset($pObjArray['pObj'])) {
             /** @var TypoScriptFrontendController $typoScriptFrontendController */
@@ -79,10 +76,30 @@ class TypoScriptFrontendControllerHook
                         }
                     }
                 }
-                if ($headers) {
-                    $this->sendHeaders($headers);
+                if ($headers && isset($typoScriptFrontendController->config['config'])) {
+
+                    if(!isset($typoScriptFrontendController->config['config']['additionalHeaders.'])) {
+                        $typoScriptFrontendController->config['config']['additionalHeaders.'] = [];
+                    }
+
+                    $typoScriptFrontendController->config['config']['additionalHeaders.'][81234]['header'] = $headers;
                 }
             }
         }        
+    }
+
+    /**
+     * If the admin panel we need to set the unsafe-inline and unsafe-eval values
+     * to enable the javascript code of the panel.
+     */
+    public function extendAdminPanel() {
+        /** @var ContentSecurityPolicyHeaderBuilderInterface $builder */
+        $builder = ContentSecurityPolicyManager::getBuilder();
+
+        $builder->resetDirective(Directives::SCRIPT_SRC);
+        $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-inline');
+        $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-eval');
+
+        header(ContentSecurityPolicyManager::extractHeaders());
     }
 }

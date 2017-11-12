@@ -267,5 +267,4 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
 
         unset($this->directives[$directive]);
     }
-    
 }

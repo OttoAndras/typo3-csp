@@ -12,7 +12,7 @@ rendering is done.
 
 .. attention::
 
-   The extension uses the hook **contentPostProcOutput**.
+   The extension uses the hook **contentPostProc-all**.
    In the registered function the whole Content Security Policy header will be generated,
    it **replaces** any previously defined value and if the cache enabled it will cache
    the header with a tag "*pageId_<uid>*" so if the page are modified the cache entry will be flushed.

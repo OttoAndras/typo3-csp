@@ -91,16 +91,6 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
             $builder = self::getBuilder();
 
-            //AdmPanel
-            /** @var FrontendBackendUserAuthentication $beUser */
-            $beUser = $GLOBALS['BE_USER'];
-
-            if(!is_null($beUser) && $beUser->isAdminPanelVisible()) {
-                $builder->resetDirective(Directives::SCRIPT_SRC);
-                $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-inline');
-                $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-eval');
-            }
-
             $config = $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.'];
 
             if(isset($config['additionalSources.'])) {
