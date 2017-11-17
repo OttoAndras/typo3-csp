@@ -19,6 +19,7 @@ use AndrasOtto\Csp\Constants\Directives;
 use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Constants\SourceKeywords;
 use AndrasOtto\Csp\Exceptions\InvalidDirectiveException;
+use AndrasOtto\Csp\Exceptions\UnsupportedHashAlgorithmException;
 
 class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderBuilderInterface
 {
@@ -102,7 +103,11 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
             $this->directives[$directive][$blockName] = [];
         }
 
-        $this->directives[$directive][$blockName][] = $value;
+        //Register each value only once
+        if(!in_array($value, $this->directives[$directive][$blockName])) {
+            $this->directives[$directive][$blockName][] = $value;
+        }
+
 
     }
 
@@ -134,10 +139,16 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
      *
      * @param string $type
      * @param string $hash
-     * @throws InvalidDirectiveException
+     * @throws UnsupportedHashAlgorithmException
      */
     public function addHash($type, $hash)
     {
+        if(!in_array($type, $this->allowedHashAlgorithmValues)) {
+            throw new UnsupportedHashAlgorithmException(
+                sprintf('Unsupported hash algorithm detected \'%s\'', $type)
+            );
+        }
+
         $directive = Directives::SCRIPT_SRC;
         if (!(isset($this->directives[$directive]) && is_array($this->directives[$directive]))) {
             $this->directives[$directive] = [];
@@ -197,10 +208,6 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
     protected function parseDirectiveValue($directive)
     {
         $expressions = [];
-
-        if (!(isset($directive) && is_array($directive))) {
-            return null;
-        }
 
         // Parse the source expressions
         if (isset($directive['expressions']) && is_array($directive['expressions'])) {

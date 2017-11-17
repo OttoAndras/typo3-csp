@@ -12,8 +12,35 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace AndrasOtto\Csp\Tests\Unit\Hook;
 
+namespace AndrasOtto\Csp\Hooks;
+
+/**
+ * Fakes the headers_sent check always enable to code to run inside such a check
+ * but only for the namespace AndrasOtto\Csp\Hooks
+ *
+ * @return bool
+ */
+function headers_sent()
+{
+    return false;
+}
+
+/**
+ * Fakes the header set function since you are not able to send headers with phpunit
+ * so it should simply mock the functionality without any sending.
+ * Only for the namespace AndrasOtto\Csp\Hooks
+ *
+ * @param $string
+ * @param bool $replace
+ * @param int $http_response_code
+ */
+function header($string, $replace = true, $http_response_code = null)
+{
+
+}
+
+namespace AndrasOtto\Csp\Tests\Unit\Hook;
 
 use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Domain\Model\Script;

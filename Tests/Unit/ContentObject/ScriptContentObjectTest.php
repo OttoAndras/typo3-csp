@@ -17,12 +17,11 @@ namespace AndrasOtto\Csp\Tests\Unit\ContentObject;
 
 use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\ContentObject\ScriptContentObject;
-use AndrasOtto\Csp\Domain\Model\Script;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use AndrasOtto\Csp\Tests\Unit\AbstractUnitTest;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class ScriptContentObjectTest extends UnitTestCase
+class ScriptContentObjectTest extends AbstractUnitTest
 {
 
     /** @var ScriptContentObject  */

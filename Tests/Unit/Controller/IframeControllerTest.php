@@ -16,9 +16,9 @@ namespace AndrasOtto\Csp\Tests\Unit\Controller;
 
 
 use AndrasOtto\Csp\Controller\IframeController;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use AndrasOtto\Csp\Tests\Unit\AbstractUnitTest;
 
-class IframeControllerTest extends UnitTestCase
+class IframeControllerTest extends AbstractUnitTest
 {
 
     /** @var IframeController  */

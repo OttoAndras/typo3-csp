@@ -19,9 +19,9 @@ use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Domain\Model\Script;
 use AndrasOtto\Csp\Exceptions\InvalidValueException;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use AndrasOtto\Csp\Tests\Unit\AbstractUnitTest;
 
-class ScriptTest extends UnitTestCase
+class ScriptTest extends AbstractUnitTest
 {
 
     /**
@@ -29,7 +29,9 @@ class ScriptTest extends UnitTestCase
      */
     public function setUp()
     {
+        ContentSecurityPolicyManager::resetBuilder();
         parent::setUp();
+
     }
 
     /**
@@ -69,7 +71,6 @@ class ScriptTest extends UnitTestCase
      * @test
      */
     public function sha256AddedCorrectly() {
-        ContentSecurityPolicyManager::resetBuilder();
         $script = new Script('var foo = "314"');
         $script->generateHtmlTag();
         $headers = ContentSecurityPolicyManager::extractHeaders();
@@ -83,7 +84,6 @@ class ScriptTest extends UnitTestCase
      * @test
      */
     public function sha512AddedCorrectly() {
-        ContentSecurityPolicyManager::resetBuilder();
         $script = new Script('var foo = "314"', HashTypes::SHA_512);
         $script->generateHtmlTag();
         $headers = ContentSecurityPolicyManager::extractHeaders();
@@ -91,6 +91,24 @@ class ScriptTest extends UnitTestCase
             'Content-Security-Policy: script-src \'sha512-gqJ6LLaGT566XoMMIbnXj8qX7PZLJBPRQ+iLa0i6dp9SKcBVf8+PeiGsq1mGb/07i6lDr1CvTL0d7EoRnBGNVg==\';',
             $headers);
 
+    }
+
+    /**
+     * @test
+     */
+    public function testNonceModeForScript() {
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['csp'] = 'a:1:{s:12:"scriptMethod";s:1:"1";}';
+        ContentSecurityPolicyManager::reloadConfig();
+        $nonce = ContentSecurityPolicyManager::getNonce();
+        $script = new Script('var foo = "314"', HashTypes::SHA_512);
+        $script->generateHtmlTag();
+        $headers = ContentSecurityPolicyManager::extractHeaders();
+        $this->assertEquals(
+            'Content-Security-Policy: script-src \'nonce-'. $nonce .'\';',
+            $headers);
+
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['csp'] = '';
+        ContentSecurityPolicyManager::reloadConfig();
     }
 
     public function tearDown()

@@ -27,6 +27,7 @@ class ScriptUtilityTest extends UnitTestCase
      */
     public function setUp()
     {
+        ContentSecurityPolicyManager::resetBuilder();
         parent::setUp();
     }
 
@@ -43,7 +44,6 @@ class ScriptUtilityTest extends UnitTestCase
      * @test
      */
     public function hashAddedCorrectly() {
-        ContentSecurityPolicyManager::resetBuilder();
         ScriptUtility::getValidScriptTag('var foo = "314"');
         $headers = ContentSecurityPolicyManager::extractHeaders();
         $this->assertEquals(

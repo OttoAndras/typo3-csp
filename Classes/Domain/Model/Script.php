@@ -15,6 +15,7 @@
 namespace AndrasOtto\Csp\Domain\Model;
 
 
+use AndrasOtto\Csp\Constants\Directives;
 use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Exceptions\InvalidValueException;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
@@ -111,14 +112,29 @@ class Script extends AbstractEntity
     public function generateHtmlTag(){
         $scriptTagOutput = '';
 
-        $hash = $this->calculateScriptHash($this->script, $this->hashMethod);
-
-        //registers the hash value to the script directive
-        ContentSecurityPolicyManager::getBuilder()->addHash($this->hashMethod,
-            $hash);
-
         if($this->script) {
-            $scriptTagOutput = '<script>' . $this->script . '</script>';
+
+            $scriptTagOpen = '<script>';
+            $scriptTagEnd = '</script>';
+
+            //Two supported methods are nonce and hash, it can be set in the extension configuration
+            if(ContentSecurityPolicyManager::isNonceModeEnabled()) {
+                $nonce = ContentSecurityPolicyManager::getNonce();
+
+                //registers the nonce value to the script directive
+                ContentSecurityPolicyManager::getBuilder()->addNonce(Directives::SCRIPT_SRC,
+                    $nonce);
+
+                $scriptTagOpen = sprintf('<script nonce="%s">', $nonce);
+            } else {
+                $hash = $this->calculateScriptHash($this->script, $this->hashMethod);
+
+                //registers the hash value to the script directive
+                ContentSecurityPolicyManager::getBuilder()->addHash($this->hashMethod,
+                    $hash);
+            }
+
+            $scriptTagOutput = $scriptTagOpen . $this->script . $scriptTagEnd;
         }
 
         return $scriptTagOutput;

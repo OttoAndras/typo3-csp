@@ -1,0 +1,2 @@
+# cat=security/enable; type=options[Hash=0,Nonce=1]; label=Script method:Select the method for registering script tags
+scriptMethod = 0

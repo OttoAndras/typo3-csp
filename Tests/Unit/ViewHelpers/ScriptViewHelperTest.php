@@ -15,11 +15,10 @@
 namespace AndrasOtto\Csp\Tests\Unit\Utility;
 
 use AndrasOtto\Csp\Constants\HashTypes;
-use AndrasOtto\Csp\Domain\Model\Script;
+use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use AndrasOtto\Csp\ViewHelpers\ScriptViewHelper;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 
 class ScriptViewHelperTest extends UnitTestCase
@@ -36,15 +35,8 @@ class ScriptViewHelperTest extends UnitTestCase
         $this->subject = GeneralUtility::makeInstance(ScriptViewHelper::class);
         $renderingContext = GeneralUtility::makeInstance(RenderingContext::class);
         $this->subject->setRenderingContext($renderingContext);
+        ContentSecurityPolicyManager::resetBuilder();
     }
-
-    /**
-     * @test
-     */
-    /*public function throwsExceptionWithWrongHashMethod() {
-        $this->setExpectedException(InvalidArgumentValueException::class);
-        $this->subject->render('test');
-    }*/
 
     /**
      * @test

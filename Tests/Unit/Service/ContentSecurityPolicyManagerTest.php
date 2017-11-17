@@ -15,15 +15,14 @@
 namespace AndrasOtto\Csp\Tests\Unit\Service;
 
 
-use AndrasOtto\Csp\Constants\HashTypes;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyHeaderBuilderInterface;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
 use AndrasOtto\Csp\Exceptions\InvalidClassException;
+use AndrasOtto\Csp\Tests\Unit\AbstractUnitTest;
 use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
-class ContentSecurityPolicyManagerTest extends UnitTestCase
+class ContentSecurityPolicyManagerTest extends AbstractUnitTest
 {
 
     /**
@@ -34,35 +33,6 @@ class ContentSecurityPolicyManagerTest extends UnitTestCase
         parent::setUp();
         ContentSecurityPolicyManager::resetBuilder();
     }
-
-    /**
-     * @return TypoScriptFrontendController
-     */
-    private function setUpFakeTsfe() {
-        $tsfe = new TypoScriptFrontendController([], 0, 0);
-        $tsfe->tmpl = new \stdClass();
-        $tsfe->config['config']['csp.'] = [
-            'enabled' => 0
-        ];
-        $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['presets.'] = [
-            'googleAnalytics' => [
-                'enabled' => 1,
-                'rules.' => [
-                    'script' => 'www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net',
-                    'img' => 'www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net'
-                ]
-            ],
-            'vimeo' => [
-                'enabled' => 0,
-                'rules.' => [
-                    'frame' => '*.vimeo.com *.vimeocdn.com'
-                ]
-            ]
-        ];
-        $GLOBALS['TSFE'] = $tsfe;
-        return $tsfe;
-    }
-
 
     /**
      * @return TypoScriptFrontendController

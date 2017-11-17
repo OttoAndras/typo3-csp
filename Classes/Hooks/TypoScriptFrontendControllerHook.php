@@ -16,10 +16,7 @@
 namespace AndrasOtto\Csp\Hooks;
 
 
-use AndrasOtto\Csp\Constants\Directives;
-use AndrasOtto\Csp\Service\ContentSecurityPolicyHeaderBuilderInterface;
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
-use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -29,7 +26,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class TypoScriptFrontendControllerHook
 {
     /**
-     * Renders and caches (if cache enabled) the content security headers
+     * Renders the content security headers
      * 
      * @param $pObjArray
      */
@@ -43,63 +40,20 @@ class TypoScriptFrontendControllerHook
                 : false;
 
             if($enabled) {
-                $cacheIdentifier = $typoScriptFrontendController->newHash;
-
-                /** @var ObjectManager $objectManager */
-                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                /** @var CacheManager $cacheManager */
-                $cacheManager = $objectManager->get(CacheManager::class);
-                /** @var FrontendInterface $cspHeaderCache */
-                $cspHeaderCache = $cacheManager->getCache('csp_header_cache');
 
                 ContentSecurityPolicyManager::addTypoScriptSettings($typoScriptFrontendController);
 
                 $headers = ContentSecurityPolicyManager::extractHeaders();
 
-                /** @var FrontendBackendUserAuthentication $beUser */
-                $beUser = $GLOBALS['BE_USER'];
-
-                //If the admin panel active, the header can not be cached
-                $admPanelActive = !is_null($beUser) && $beUser->isAdminPanelVisible();
-
-                if (!$typoScriptFrontendController->no_cache && !$admPanelActive) {
-
-                    if ($cspHeaderCache->has($cacheIdentifier)) {
-                        $headers = $cspHeaderCache->get($cacheIdentifier);
-                    } else {
-
-                        if ($headers) {
-                            $cspHeaderCache->set($cacheIdentifier, $headers, [
-                                'csp',
-                                'pageId_' . $typoScriptFrontendController->page['uid']
-                            ]);
-                        }
-                    }
-                }
                 if ($headers && isset($typoScriptFrontendController->config['config'])) {
 
                     if(!isset($typoScriptFrontendController->config['config']['additionalHeaders.'])) {
                         $typoScriptFrontendController->config['config']['additionalHeaders.'] = [];
                     }
 
-                    $typoScriptFrontendController->config['config']['additionalHeaders.'][81234]['header'] = $headers;
+                    $typoScriptFrontendController->config['config']['additionalHeaders.'][81247]['header'] = $headers;
                 }
             }
         }        
-    }
-
-    /**
-     * If the admin panel we need to set the unsafe-inline and unsafe-eval values
-     * to enable the javascript code of the panel.
-     */
-    public function extendAdminPanel() {
-        /** @var ContentSecurityPolicyHeaderBuilderInterface $builder */
-        $builder = ContentSecurityPolicyManager::getBuilder();
-
-        $builder->resetDirective(Directives::SCRIPT_SRC);
-        $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-inline');
-        $builder->addSourceExpression(Directives::SCRIPT_SRC, 'unsafe-eval');
-
-        header(ContentSecurityPolicyManager::extractHeaders());
     }
 }

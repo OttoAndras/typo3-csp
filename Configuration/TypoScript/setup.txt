@@ -77,3 +77,13 @@ plugin.tx_csp.settings {
         }
     }
 }
+
+[globalVar = TSFE:doktype = 1]
+
+[GLOBAL]
+
+[globalVar = TSFE:config|config|doktype = 1]
+
+plugin.tx_csp.settings.additionalSources.script.0 = self unsafe-inline unsafe-eval
+
+[GLOBAL]

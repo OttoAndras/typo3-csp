@@ -15,11 +15,11 @@
 namespace AndrasOtto\Csp\Service;
 
 
-use AndrasOtto\Csp\Constants\Directives;
 use AndrasOtto\Csp\Exceptions\InvalidClassException;
-use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class ContentSecurityPolicyManager implements SingletonInterface
@@ -27,9 +27,35 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
     const DIRECTIVE_POSTFIX = "-src";
 
+    const SCRIPT_MODE_HASH = 0;
+    const SCRIPT_MODE_NONCE = 1;
 
-    /** @var  ContentSecurityPolicyHeaderBuilder */
+    /**
+     * Nonce for the actual rendering.
+     * It will be generated only once pro request.
+     *
+     * @var string
+     */
+    static private $nonce = '';
+
+    /**
+     * @var  ContentSecurityPolicyHeaderBuilder
+     */
     static private $headerBuilder = null;
+
+    /**
+     * Holds the extension configuration
+     *
+     * @var array
+     */
+    static private $extensionConfiguration = [];
+
+    /**
+     * It is true if the extension config was loaded already
+     *
+     * @var bool
+     */
+    static private $extensionConfigurationLoaded = false;
 
     /**
      * Returns a ContentSecurityPolicyHeaer Builder instance
@@ -41,6 +67,47 @@ class ContentSecurityPolicyManager implements SingletonInterface
             self::$headerBuilder = self::createNewBuilderInstance();
         }
         return self::$headerBuilder;
+    }
+
+    /**
+     * Returns a nonce. It is generated only once by each request.
+     *
+     * @return string
+     */
+    static public function getNonce() {
+        //If nonce is not generated yet, generate it first
+        if(!self::$nonce) {
+            self::$nonce = base64_encode(random_bytes(32));
+        }
+        return self::$nonce;
+    }
+
+    /**
+     * Returns the extensionConfiguration as an array.
+     *
+     * @return array
+     */
+    static protected function getExtensionConfiguration() {
+        if(!self::$extensionConfigurationLoaded) {
+            /** @var ObjectManager $objectManager */
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+
+            /** @var ConfigurationUtility $configurationUtility */
+            $configurationUtility = $objectManager->get(ConfigurationUtility::class);
+            self::$extensionConfiguration = $configurationUtility->getCurrentConfiguration('csp');
+            self::$extensionConfigurationLoaded = true;
+        }
+        return self::$extensionConfiguration;
+    }
+
+    /**
+     * Is Nonce enabled (true) or the default Hash method should be used (false)
+     *
+     * @return bool
+     */
+    static public function isNonceModeEnabled() {
+        $extConfig = self::getExtensionConfiguration();
+        return isset($extConfig['scriptMethod']['value']) && $extConfig['scriptMethod']['value'] == self::SCRIPT_MODE_NONCE;
     }
 
     /**
@@ -76,6 +143,17 @@ class ContentSecurityPolicyManager implements SingletonInterface
      */
     static public function resetBuilder() {
         self::$headerBuilder = self::createNewBuilderInstance();
+    }
+
+    /**
+     * Resets the extension configuration
+     *
+     * @internal
+     * @return void
+     */
+    static public function reloadConfig() {
+        self::$extensionConfigurationLoaded = false;
+        self::getExtensionConfiguration();
     }
 
     /**
