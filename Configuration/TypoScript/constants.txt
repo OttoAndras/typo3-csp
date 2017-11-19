@@ -1,36 +1,43 @@
+# cat=basic; type=boolean; label= Enabling the extension
 config.csp {
     enabled = 1
 }
 plugin.tx_csp.settings {
     presets {
         googleAnalytics {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Google Analytics preset
             enabled = 0
             script = www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net
             img = www.google-analytics.com stats.g.doubleclick.net https://stats.g.doubleclick.net
         }
 
         youTube {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Youtube preset
             enabled = 0
             frame = *.youtube.com
         }
 
         vimeo{
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Vimeo preset
             enabled = 0
             frame = *.vimeo.com *.vimeocdn.com
         }
 
         googleMaps {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Google Maps preset
             enabled = 0
             script = maps.googleapis.com maps.gstatic.com
         }
 
         googleFonts {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Google Fonts preset
             enabled = 0
             style = fonts.googleapis.com fonts.gstatic.com
             font = fonts.googleapis.com fonts.gstatic.com
         }
 
         jQuery {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Jquery (form Google) preset
             enabled = 0
             script = ajax.googleapis.com
         }
