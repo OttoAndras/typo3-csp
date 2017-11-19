@@ -148,7 +148,7 @@ class Iframe extends AbstractEntity
                 , 1505632671);
         } else {
             $this->src = $src;
-            $this->srcHost = $src;
+            $this->srcHost = $host;
         }
     }
 
@@ -406,9 +406,7 @@ class Iframe extends AbstractEntity
         if($this->getSrc()) {
             $attributes['src'] = $this->getSrc();
 
-            //Need to add the src host to the content security policy header in the moment as the iframe generated.
-            ContentSecurityPolicyManager::getBuilder()->addSourceExpression(
-                Directives::FRAME_SRC, $this->srcHost);
+            $this->registerSrcHost();
         }
 
         if($this->getName()) {
@@ -458,5 +456,39 @@ class Iframe extends AbstractEntity
         }
 
         return rtrim($iframe) . '></iframe>';
+    }
+
+    /**
+     * Registers the srcHost into the CSP Header
+     *
+     * @return void
+     */
+    public function registerSrcHost() {
+
+        if($this->srcHost) {
+            //Need to add the src host to the content security policy header in the moment as the iframe generated.
+            //CSP 1.0
+            ContentSecurityPolicyManager::getBuilder()->addSourceExpression(
+                Directives::FRAME_SRC, $this->srcHost);
+
+            //CSP 2.0 recommendation
+            ContentSecurityPolicyManager::getBuilder()->addSourceExpression(
+                Directives::CHILD_SRC
+                , $this->srcHost);
+        }
+    }
+
+    /**
+     * Extract the source of html code
+     *
+     * @param $html
+     * @return mixed|string
+     */
+    static public function parseSrcFromHtml($html) {
+        $matches = [];
+        preg_match('/src="(.*?)"/', $html, $matches);
+        $src = $matches[1] ?? '';
+
+        return new Iframe($src);
     }
 }

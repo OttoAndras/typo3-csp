@@ -10,12 +10,12 @@ plugin.tx_csp.settings {
         }
 
         youTube {
-            enabled = 1
-            frame = www.youtube.com
+            enabled = 0
+            frame = *.youtube.com
         }
 
         vimeo{
-            enabled = 1
+            enabled = 0
             frame = *.vimeo.com *.vimeocdn.com
         }
 

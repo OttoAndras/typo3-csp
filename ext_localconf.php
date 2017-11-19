@@ -54,3 +54,9 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects'] = array_merge($GLOBALS['TYPO
      }
    }'
 );
+
+/** @var \TYPO3\CMS\Core\Resource\Rendering\RendererRegistry $rendererRegistry */
+$rendererRegistry = \TYPO3\CMS\Core\Resource\Rendering\RendererRegistry::getInstance();
+$rendererRegistry->registerRendererClass(\AndrasOtto\Csp\Resource\Rendering\YouTubeRenderer::class);
+$rendererRegistry->registerRendererClass(\AndrasOtto\Csp\Resource\Rendering\VimeoRenderer::class);
+unset($rendererRegistry);

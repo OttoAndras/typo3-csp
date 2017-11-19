@@ -328,6 +328,17 @@ class IframeTest extends UnitTestCase
     }
 
 
+    /**
+     * @test
+     */
+    public function parsingSrcFromHTMLWorks() {
+        $html = '<iframe classs="test" src="https://player.test.video/id=?dasdas"></iframe>';
+        $this->iframe = Iframe::parseSrcFromHtml($html);
+
+        $this->assertEquals("https://player.test.video/id=?dasdas", $this->iframe->getSrc());
+    }
+
+
     public function tearDown()
     {
         parent::tearDown();

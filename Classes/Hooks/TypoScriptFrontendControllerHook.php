@@ -17,10 +17,6 @@ namespace AndrasOtto\Csp\Hooks;
 
 
 use AndrasOtto\Csp\Service\ContentSecurityPolicyManager;
-use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class TypoScriptFrontendControllerHook
