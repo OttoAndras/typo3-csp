@@ -17,19 +17,19 @@ $EM_CONF[$_EXTKEY] = [
   'title' => 'CSP: Content Security Policy',
   'description' => 'Generates the Content-Security-Policy response header based on the content of the page',
   'category' => 'misc',
-  'version' => '1.0.0-dev',
-  'state' => 'beta',
+  'version' => '1.0.0',
+  'state' => 'stable',
   'createDirs' => '',
   'clearcacheonload' => true,
   'author' => 'András Ottó',
-  'author_email' => 'ottoandras@gmail.com',
+  'author_email' => 'typo3csp@gmail.com',
   'author_company' => '',
   'constraints' => 
   [
     'depends' => 
     [
       'typo3' => '7.6.19 - 8.7.99',
-      'php' => '5.5.0-7.1.99',
+      'php' => '7.0.0-7.1.99',
     ],
     'conflicts' => 
     [
