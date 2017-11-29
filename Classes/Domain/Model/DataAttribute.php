@@ -125,7 +125,7 @@ class DataAttribute extends AbstractEntity
     /**
      * @return string
      */
-    public function getName()
+    public function getName() :string
     {
         if(substr($this->name, 0, 5) !== 'data-') {
             return self::NAME_PREFIX . $this->name;
@@ -137,7 +137,7 @@ class DataAttribute extends AbstractEntity
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->ensureName($name);
     }
@@ -145,7 +145,7 @@ class DataAttribute extends AbstractEntity
     /**
      * @return string
      */
-    public function getValue()
+    public function getValue() :string
     {
         return $this->value;
     }
@@ -153,7 +153,7 @@ class DataAttribute extends AbstractEntity
     /**
      * @param string $value
      */
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->ensureValue($value);
     }

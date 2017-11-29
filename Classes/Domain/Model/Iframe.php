@@ -252,7 +252,7 @@ class Iframe extends AbstractEntity
     /**
      * @return string
      */
-    public function getSrc()
+    public function getSrc() :string
     {
         return $this->src;
     }
@@ -261,7 +261,7 @@ class Iframe extends AbstractEntity
      * @param string $src
      * @return void
      */
-    public function setSrc($src)
+    public function setSrc(string $src)
     {
         $this->ensureSrc($src);
     }
@@ -269,7 +269,7 @@ class Iframe extends AbstractEntity
     /**
      * @return string
      */
-    public function getClass()
+    public function getClass() :string
     {
         return $this->class;
     }
@@ -277,7 +277,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $class
      */
-    public function setClass($class)
+    public function setClass(string $class)
     {
         $this->class = $class;
     }
@@ -285,7 +285,7 @@ class Iframe extends AbstractEntity
     /**
      * @return string
      */
-    public function getName()
+    public function getName() :string
     {
         return $this->name;
     }
@@ -293,7 +293,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -301,7 +301,7 @@ class Iframe extends AbstractEntity
     /**
      * @return int
      */
-    public function getWidth()
+    public function getWidth() :int
     {
         return $this->width;
     }
@@ -310,7 +310,7 @@ class Iframe extends AbstractEntity
      * @param int $width
      * @return void
      */
-    public function setWidth($width)
+    public function setWidth(int $width)
     {
         $this->ensureWidth($width);
     }
@@ -318,7 +318,7 @@ class Iframe extends AbstractEntity
     /**
      * @return int
      */
-    public function getHeight()
+    public function getHeight() :int
     {
         return $this->height;
     }
@@ -326,7 +326,7 @@ class Iframe extends AbstractEntity
     /**
      * @param int $height
      */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
         $this->ensureHeight($height);
     }
@@ -334,7 +334,7 @@ class Iframe extends AbstractEntity
     /**
      * @return array
      */
-    public function getSandbox()
+    public function getSandbox() :array
     {
         return $this->sandbox;
     }
@@ -342,7 +342,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $sandbox
      */
-    public function setSandbox($sandbox)
+    public function setSandbox(string $sandbox)
     {
         $this->ensureSandboxValues($sandbox);
     }
@@ -350,7 +350,7 @@ class Iframe extends AbstractEntity
     /**
      * @return boolean
      */
-    public function isAllowFullScreen()
+    public function isAllowFullScreen() :bool
     {
         return $this->allowFullScreen;
     }
@@ -358,15 +358,15 @@ class Iframe extends AbstractEntity
     /**
      * @param boolean $allowFullScreen
      */
-    public function setAllowFullScreen($allowFullScreen)
+    public function setAllowFullScreen(bool $allowFullScreen)
     {
-        $this->ensureAllowFullScreen(boolval($allowFullScreen));
+        $this->ensureAllowFullScreen($allowFullScreen);
     }
 
     /**
      * @return boolean
      */
-    public function isAllowPaymentRequest()
+    public function isAllowPaymentRequest() :bool
     {
         return $this->allowPaymentRequest;
     }
@@ -374,15 +374,15 @@ class Iframe extends AbstractEntity
     /**
      * @param boolean $allowPaymentRequest
      */
-    public function setAllowPaymentRequest($allowPaymentRequest)
+    public function setAllowPaymentRequest(bool $allowPaymentRequest)
     {
-        $this->ensureAllowPaymentRequest(boolval($allowPaymentRequest));
+        $this->ensureAllowPaymentRequest($allowPaymentRequest);
     }
 
     /**
      * @return array
      */
-    public function getDataAttributes()
+    public function getDataAttributes() :array
     {
         return $this->dataAttributes;
     }
@@ -390,7 +390,7 @@ class Iframe extends AbstractEntity
     /**
      * @param string $dataAttributes
      */
-    public function setDataAttributes($dataAttributes)
+    public function setDataAttributes(string $dataAttributes)
     {
         $this->ensureDataAttributes($dataAttributes);
     }
@@ -401,7 +401,7 @@ class Iframe extends AbstractEntity
      * @return string
      * @throws InvalidValueException
      */
-    public function generateHtmlTag(){
+    public function generateHtmlTag() {
         $attributes = [];
         if($this->getSrc()) {
             $attributes['src'] = $this->getSrc();

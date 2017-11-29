@@ -80,7 +80,7 @@ class ScriptViewHelper extends AbstractViewHelper implements CompilableInterface
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $output = $renderChildrenClosure();
-        $hashMethod = isset($arguments['hashMethod']) ? $arguments['hashMethod'] : '';
+        $hashMethod = $arguments['hashMethod'] ?? '';
 
         if($hashMethod) {
             $output = ScriptUtility::getValidScriptTag($output, $hashMethod, true);
