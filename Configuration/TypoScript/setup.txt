@@ -42,10 +42,18 @@ plugin.tx_csp.settings {
             }
         }
 
-        jQuery {
-            enabled = {$plugin.tx_csp.settings.presets.jQuery.enabled}
+        jQueryGoogle {
+            enabled = {$plugin.tx_csp.settings.presets.jQueryGoogle.enabled}
             rules {
-                script = {$plugin.tx_csp.settings.presets.jQuery.script}
+                script = {$plugin.tx_csp.settings.presets.jQueryGoogle.script}
+            }
+        }
+
+        bootstrap {
+            enabled = {$plugin.tx_csp.settings.presets.bootstrap.enabled}
+            rules {
+                script = {$plugin.tx_csp.settings.presets.bootstrap.script}
+                style = {$plugin.tx_csp.settings.presets.bootstrap.script}
             }
         }
     }

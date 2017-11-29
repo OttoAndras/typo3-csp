@@ -36,10 +36,17 @@ plugin.tx_csp.settings {
             font = fonts.googleapis.com fonts.gstatic.com
         }
 
-        jQuery {
+        jQueryGoogle {
             # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Jquery (form Google) preset
             enabled = 0
             script = ajax.googleapis.com
+        }
+
+        bootstrap {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling Bootstrap 4 (JQuery included(!)) preset
+            enabled = 0
+            script = code.jquery.com cdnjs.cloudflare.com maxcdn.bootstrapcdn.com
+            style = maxcdn.bootstrapcdn.com
         }
     }
 }
