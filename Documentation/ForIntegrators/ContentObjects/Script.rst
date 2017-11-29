@@ -50,7 +50,7 @@ Properties
 
    Description
          This method will be used to calculate a hash for the content security policy header. Possible values are
-         sha256 or sha512
+         sha256, sha384 or sha512. This is ignored if the script method is set to "nonce". See by the "Extension settings".
 
 .. container:: table-row
 

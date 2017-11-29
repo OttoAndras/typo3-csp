@@ -1,0 +1,6 @@
+TypoScript
+==========
+
+.. toctree::
+
+   Settings

@@ -6,4 +6,5 @@ For integrators
    ContentObjects/Index
    Typoscript/Index
    ViewHelpers/Index
+   ExtensionSettings/Index
 

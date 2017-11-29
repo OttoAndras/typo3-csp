@@ -25,6 +25,7 @@ class Script extends AbstractEntity
 {
     protected $allowedHashMethods = [
         HashTypes::SHA_256,
+        HashTypes::SHA_384,
         HashTypes::SHA_512
     ];
 
@@ -68,7 +69,7 @@ class Script extends AbstractEntity
             $this->hashMethod = $hashMethod;
         } else {
             throw new InvalidValueException(
-                sprintf('Only the values "sha256" and "sha512" are supported, "%s" given', $hashMethod)
+                sprintf('Only the values "sha256", "sha384" and "sha512" are supported, "%s" given', $hashMethod)
                 , 1505745612);
         }
     }
