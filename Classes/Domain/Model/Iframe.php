@@ -195,7 +195,7 @@ class Iframe extends AbstractEntity
         $values = preg_split('/,/', $sandbox);
 
         foreach ($values as $value) {
-            $value = trim($value);
+            $value = trim(htmlspecialchars($value));
             if($value) {
                 if (!in_array($value, $this->acceptedSandboxValues)) {
                     throw new InvalidValueException(

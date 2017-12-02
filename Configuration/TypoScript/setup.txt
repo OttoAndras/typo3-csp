@@ -82,6 +82,7 @@ plugin.tx_csp.settings {
 
         img {
             0 = self
+            1 = data:
         }
     }
 }
