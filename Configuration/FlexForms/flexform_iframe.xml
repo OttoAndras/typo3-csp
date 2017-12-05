@@ -120,11 +120,11 @@
 		</main>
 		<style>
 			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.sheet.style.title</sheetTitle>
+				</TCEforms>
+				<type>array</type>
 				<el>
-					<TCEforms>
-						<sheetTitle>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.sheet.style.title</sheetTitle>
-					</TCEforms>
-					<type>array</type>
 					<settings.iframe.class>
 						<TCEforms>
 							<label>LLL:EXT:csp/Resources/Private/Language/backend.xlf:flexform.iframe.class</label>
