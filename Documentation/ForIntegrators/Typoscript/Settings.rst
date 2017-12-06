@@ -110,3 +110,39 @@ Additional domains
          See the full list: https://content-security-policy.com/#source_list
 
 .. ###### END~OF~TABLE ######
+
+Reporting
+---------
+
+.. ### BEGIN~OF~TABLE ###
+
+.. container:: table-row
+
+   Property
+         reportOnly
+
+   Data type
+         boolean
+
+   Description
+         If this option set, then instead of the normal Content-Security-Policy Header the Content-Security-Policy-Report-Only
+         header will be sent with a report-uri directive. This is very useful to test the settings. If reportOnly mode set, then
+         any violation will be only listed on the browser's console and sent to an endpoint as a report.
+         Default fallback (if report-uri not set) is /typo3conf/ext/csp/Resources/Public/report.php.
+         The script will write the browser reports in a file (csp-violations.log) in the typo3temp/logs/ (v7) or
+         typo3temp/var/logs/ (v8).
+
+
+.. container:: table-row
+
+   Property
+         report-uri
+
+   Data type
+         string
+
+   Description
+         An endpoint for the browser reports. It has a default if reportOnly set. (you can use it for an example for own implementation)
+         Report-uri can be used without the ReportOnly, in this case the validations will be blocked but also reported.
+
+.. ###### END~OF~TABLE ######
