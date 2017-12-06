@@ -30,6 +30,11 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
     protected $headerName = 'Content-Security-Policy';
 
     /**
+     * @var string
+     */
+    protected $reportHeaderName = 'Content-Security-Policy-Report-Only';
+
+    /**
      * A list of allowed CSP directives.
      *
      * @var array
@@ -47,7 +52,8 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
         Directives::MEDIA_SRC,
         Directives::OBJECT_SRC,
         Directives::SCRIPT_SRC,
-        Directives::STYLE_SRC
+        Directives::STYLE_SRC,
+        Directives::REPORT_URI
     ];
 
     /**
@@ -273,5 +279,12 @@ class ContentSecurityPolicyHeaderBuilder implements ContentSecurityPolicyHeaderB
         $this->checkDirective($directive);
 
         unset($this->directives[$directive]);
+    }
+
+    /**
+     * Sets the header name
+     */
+    public function useReportingMode() {
+        $this->headerName = $this->reportHeaderName;
     }
 }

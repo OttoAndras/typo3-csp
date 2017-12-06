@@ -60,9 +60,9 @@ class ScriptTest extends AbstractUnitTest
     /**
      * @test
      */
-    public function notAllowedSandboxValueThrowsException() {
+    public function notAllowedHashMethodThrowsException() {
         $this->setExpectedException(InvalidValueException::class,
-            'Only the values "sha256" and "sha512" are supported, "test" given',
+            'Only the values "sha256", "sha384" and "sha512" are supported, "test" given',
             1505745612);
         new Script('alert("fine")', 'test');
     }

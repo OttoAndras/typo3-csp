@@ -15,9 +15,12 @@
 namespace AndrasOtto\Csp\Service;
 
 
+use AndrasOtto\Csp\Constants\Directives;
 use AndrasOtto\Csp\Exceptions\InvalidClassException;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -29,6 +32,8 @@ class ContentSecurityPolicyManager implements SingletonInterface
 
     const SCRIPT_MODE_HASH = 0;
     const SCRIPT_MODE_NONCE = 1;
+
+    static private $reportScriptPath = 'Resources/Public/report.php';
 
     /**
      * Nonce for the actual rendering.
@@ -189,6 +194,32 @@ class ContentSecurityPolicyManager implements SingletonInterface
                         }
                     }
                 }
+            }
+            if(isset($config['reportOnly']) &&
+                $config['reportOnly']) {
+                $builder->useReportingMode();
+
+                if(!isset($config['report-uri'])
+                    || !$config['report-uri']) {
+                    $absoluteReportScriptPath =
+                        ExtensionManagementUtility::extPath('csp') . self::$reportScriptPath;
+
+                    $relativeReportScriptPath =
+                        PathUtility::getRelativePath(PATH_site . TYPO3_mainDir, $absoluteReportScriptPath);
+
+                    if($relativeReportScriptPath) {
+                        //Make an absolute path from the site root to the script
+                        $relativeReportScriptPath = rtrim(ltrim($relativeReportScriptPath, '.'), '/');
+
+                        $builder->addSourceExpression(Directives::REPORT_URI,
+                            $relativeReportScriptPath);
+                    }
+
+                }
+            }
+            if(isset($config['report-uri'])
+                && $config['report-uri']) {
+                $builder->addSourceExpression(Directives::REPORT_URI, htmlspecialchars($config['report-uri']));
             }
         }
     }

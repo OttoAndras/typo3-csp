@@ -49,4 +49,10 @@ plugin.tx_csp.settings {
             style = maxcdn.bootstrapcdn.com
         }
     }
+
+    # cat=plugin.tx_csp//report; type=boolean; label= Enabling reportOnly header instead of the normal.
+    reportOnly = 0
+
+    # cat=plugin.tx_csp//report; type=string; label= Report-uri an endpoint for violation reports
+    report-uri =
 }

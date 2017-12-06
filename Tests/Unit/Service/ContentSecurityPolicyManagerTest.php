@@ -153,6 +153,54 @@ class ContentSecurityPolicyManagerTest extends AbstractUnitTest
             . 'stats.g.doubleclick.net https://stats.g.doubleclick.net;',
             $headers);
     }
+    /**
+    * @test
+    */
+    public function reportOnlyModeGeneratesDefaultUriIfReportUriNotSet() {
+        $tsfe = $this->setUpFakeTsfe();
+        $this->setUpFakeBeUserAuthentication(false);
+        $tsfe->config['config']['csp.']['enabled'] = 1;
+
+        $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['additionalSources.'] = [
+            'script' => [
+                '0' => 'self',
+                '10' => 'www.test.de'
+            ]
+        ];
+
+        $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['reportOnly'] = 1;
+
+        ContentSecurityPolicyManager::addTypoScriptSettings($tsfe);
+        $headers = ContentSecurityPolicyManager::extractHeaders();
+
+        $this->assertSame(
+            'Content-Security-Policy-Report-Only: script-src \'self\' www.test.de www.google-analytics.com stats.g.doubleclick.net '
+            . 'https://stats.g.doubleclick.net; img-src www.google-analytics.com '
+            . 'stats.g.doubleclick.net https://stats.g.doubleclick.net; '
+            . 'report-uri /typo3conf/ext/csp/Resources/Public/report.php;',
+            $headers);
+    }
+
+    /**
+     * @test
+     */
+    public function correctUriRegisteredIfReportUriSet() {
+        $tsfe = $this->setUpFakeTsfe();
+        $this->setUpFakeBeUserAuthentication(false);
+        $tsfe->config['config']['csp.']['enabled'] = 1;
+
+        $tsfe->tmpl->setup['plugin.']['tx_csp.']['settings.']['report-uri'] = '/test/';
+
+        ContentSecurityPolicyManager::addTypoScriptSettings($tsfe);
+        $headers = ContentSecurityPolicyManager::extractHeaders();
+
+        $this->assertSame(
+            'Content-Security-Policy: script-src www.google-analytics.com stats.g.doubleclick.net '
+            . 'https://stats.g.doubleclick.net; img-src www.google-analytics.com '
+            . 'stats.g.doubleclick.net https://stats.g.doubleclick.net; '
+            . 'report-uri /test/;',
+            $headers);
+    }
 
     public function tearDown()
     {

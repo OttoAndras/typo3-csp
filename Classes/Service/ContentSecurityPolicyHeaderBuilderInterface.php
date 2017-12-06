@@ -31,6 +31,14 @@ interface ContentSecurityPolicyHeaderBuilderInterface
      */
     public function addHash($type, $hash);
 
+
+    /**
+     * Add a hash value to the script-src.
+     *
+     * @return void
+     */
+    public function useReportingMode();
+
     /**
      * Deletes the entries of the given directive
      *

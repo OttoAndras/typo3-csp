@@ -96,6 +96,16 @@ class ContentSecurityPolicyHeaderBuilderTest extends AbstractUnitTest
         $this->assertEquals("", $header['value']);
     }
 
+    /**
+     * @test
+     */
+    public function useReportOnlyChangesHeaderName() {
+        $this->subject->addHash(HashTypes::SHA_384, 'test');
+        $this->subject->useReportingMode();
+        $header = $this->subject->getHeader();
+        $this->assertEquals("Content-Security-Policy-Report-Only", $header['name']);
+    }
+
 
     public function tearDown()
     {
