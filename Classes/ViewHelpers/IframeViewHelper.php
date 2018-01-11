@@ -15,7 +15,7 @@ namespace AndrasOtto\Csp\ViewHelpers;
  */
 use AndrasOtto\Csp\Utility\IframeUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**

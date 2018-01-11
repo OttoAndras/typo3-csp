@@ -14,7 +14,6 @@ namespace AndrasOtto\Csp\ContentObject;
  * The TYPO3 project - inspiring people to share!
  */
 use AndrasOtto\Csp\Constants\HashTypes;
-use AndrasOtto\Csp\Domain\Model\Script;
 use AndrasOtto\Csp\Utility\ScriptUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\TextContentObject;

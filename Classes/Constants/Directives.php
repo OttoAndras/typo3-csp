@@ -81,4 +81,9 @@ class Directives
      * @var string
      */
     const STYLE_SRC = 'style-src';
+
+    /**
+	 * @var string
+	 */
+    const REPORT_URI = 'report-uri';
 }
