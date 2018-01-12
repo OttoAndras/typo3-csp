@@ -74,6 +74,40 @@ class Iframe extends AbstractEntity
     protected $dataAttributes = [];
 
     /**
+     * Constructor
+     *
+     * @param string $src
+     * @param string $name
+     * @param string $class
+     * @param int $width
+     * @param int $height
+     * @param string $sandbox
+     * @param bool $allowFullScreen
+     * @param bool $allowPaymentRequest
+     * @param string $dataAttributes
+     */
+    public function __construct($src,
+                                $class = '',
+                                $name = '',
+                                $width = 0,
+                                $height = 0,
+                                $sandbox = '',
+                                $allowFullScreen = false,
+                                $allowPaymentRequest = false,
+                                $dataAttributes = '')
+    {
+        $this->ensureSrc($src);
+        $this->class = $class;
+        $this->name = $name;
+        $this->ensureWidth($width);
+        $this->ensureHeight($height);
+        $this->ensureSandboxValues($sandbox);
+        $this->ensureAllowFullScreen($allowFullScreen);
+        $this->ensureAllowPaymentRequest($allowPaymentRequest);
+        $this->ensureDataAttributes($dataAttributes);
+    }
+
+    /**
      * Accepted values for sandbox.
      * Source: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
      *
@@ -92,40 +126,6 @@ class Iframe extends AbstractEntity
         'allow-top-navigation',
         'allow-top-navigation-by-user-activation'
     ];
-
-    /**
-     * Constructor
-     *
-     * @param string $src
-     * @param string $name
-     * @param string $class
-     * @param int $width
-     * @param int $height
-     * @param string $sandbox
-     * @param bool $allowPaymentRequest
-     * @param bool $allowFullScreen
-     * @param string $dataAttributes
-     */
-    public function __construct($src,
-                                $class = '',
-                                $name = '',
-                                $width = 0,
-                                $height = 0,
-                                $sandbox = '',
-                                $allowPaymentRequest = false,
-                                $allowFullScreen = false,
-                                $dataAttributes = '')
-    {
-        $this->ensureSrc($src);
-        $this->class = $class;
-        $this->name = $name;
-        $this->ensureWidth($width);
-        $this->ensureHeight($height);
-        $this->ensureSandboxValues($sandbox);
-        $this->ensureAllowFullScreen($allowFullScreen);
-        $this->ensureAllowPaymentRequest($allowPaymentRequest);
-        $this->ensureDataAttributes($dataAttributes);
-    }
 
     /**
      * Should be a valid host
