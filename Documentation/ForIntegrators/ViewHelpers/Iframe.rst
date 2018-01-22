@@ -113,24 +113,6 @@ allowPaymentRequest
     No
 
 
-dataAttributes
-~~~~~~~~~~~~~~
-:aspect:`Variable type`
-    String
-
-:aspect:`Description`
-    This value describes all of the data attributes of the elment.
-    The syntax is: <attribute_name>: <values (optional)>;
-    Attribute name can be prefixed with data- or simply without it, and values can be separated with ',' or ' '
-    or any other character excluded the semicolon, because it means the end of the attribute declaration.
-    Values are optional, attribute without a value are valid too.
-
-:aspect:`Default value`
-    0
-
-:aspect:`Mandatory`
-    No
-
 Examples
 --------
 
@@ -144,12 +126,11 @@ Examples
         height="200"
         allowFullScreen="1"
         allowPaymentRequest="0"
-        dataAttributes="foo: bar, bar2; foo2"
  >
 
 Result:
 ::
 
   <iframe src="https://www.foo.bar" name="foo-bar" class="bar foo" width="300" height="200"
-  allowfllscreen="allowfullscreen" data-foo="bar, bar2" data-foo2></iframe>
+  allowfllscreen="allowfullscreen"></iframe>
 
