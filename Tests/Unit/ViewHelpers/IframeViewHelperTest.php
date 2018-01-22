@@ -49,21 +49,31 @@ class IframeViewHelperTest extends UnitTestCase
      * @test
      */
     public function rendersIframeTagCorrectly() {
-        $iframeMarkup = $this->subject->render(
-            'https://test.de',
-            'test-class multiple',
-            'conf-test',
-            150,
-            160,
-            'allow-forms, allow-popups',
-            1,
-            1
-            );
+        $arguments = [
+            "src" => 'https://test.de',
+            "class" => 'test-class multiple',
+            "name" => 'conf-test',
+            "width" => 150,
+            "height" => 160,
+            "sandbox" => 'allow-forms, allow-popups',
+            "allowPaymentRequest" => 1,
+            "allowFullScreen" => 1
+        ];
+        $this->subject->setArguments($arguments);
+        $this->subject->setTagBuilder();
+        $this->subject->initialize();
+        $iframeMarkup = $this->subject->render();
         $this->assertEquals(
             '<iframe src="https://test.de" name="conf-test" class="test-class multiple" width="150" height="160" sandbox="allow-forms allow-popups" allowfullscreen="allowfullscreen" allowpaymentrequest="allowpaymentrequest"></iframe>',
             $iframeMarkup);
     }
 
+    /**
+     * @test
+     */
+    public function initializeArgumetsRunsThrough() {
+        $this->subject->initializeArguments();
+    }
 
     public function tearDown()
     {

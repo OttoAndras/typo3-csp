@@ -140,4 +140,13 @@ class Script extends AbstractEntity
 
         return $scriptTagOutput;
     }
+
+    /**
+     * Returns the trimed (if set) script body
+     *
+     * @return string
+     */
+    public function getScript() :string {
+        return $this->script;
+    }
 }

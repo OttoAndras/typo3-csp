@@ -36,6 +36,14 @@ class ScriptViewHelperTest extends UnitTestCase
         $renderingContext = GeneralUtility::makeInstance(RenderingContext::class);
         $this->subject->setRenderingContext($renderingContext);
         ContentSecurityPolicyManager::resetBuilder();
+        $this->subject->setTagBuilder();
+    }
+
+    /**
+     * @test
+     */
+    public function initializeArgumetsRunsThrough() {
+        $this->subject->initializeArguments();
     }
 
     /**
@@ -49,15 +57,12 @@ class ScriptViewHelperTest extends UnitTestCase
 
         $this->subject->setRenderChildrenClosure($closure);
 
-        $scriptMarkup = $this->subject->render(
-            HashTypes::SHA_256
-        );
+        $scriptMarkup = $this->subject->render();
 
         $this->assertEquals(
             "",
             $scriptMarkup);
     }
-
 
     /**
      * @test
@@ -69,12 +74,10 @@ class ScriptViewHelperTest extends UnitTestCase
                 alert(\'test\');
             ';
         };
-
+        $this->subject->initialize();
         $this->subject->setRenderChildrenClosure($closure);
 
-        $scriptMarkup = $this->subject->render(
-            HashTypes::SHA_256
-            );
+        $scriptMarkup = $this->subject->render();
 
         $this->assertEquals(
             "<script>alert('test');</script>",

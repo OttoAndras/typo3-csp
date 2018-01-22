@@ -13,10 +13,10 @@ namespace AndrasOtto\Csp\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use AndrasOtto\Csp\Utility\IframeUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use AndrasOtto\Csp\Domain\Model\Iframe;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Renders an Iframe tag
@@ -24,66 +24,79 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * Class IframeViewHelper
  * @package AndrasOtto\Csp\ViewHelpers
  */
-class IframeViewHelper extends AbstractViewHelper
+class IframeViewHelper extends AbstractTagBasedViewHelper
 {
+    protected $tagName = 'iframe';
 
-    /**
-     * Renders an Iframe tag
-     *
-     * @param string $src
-     * @param string $class
-     * @param string $name
-     * @param int $width
-     * @param int $height
-     * @param string $sandbox
-     * @param bool $allowFullScreen
-     * @param bool $allowPaymentRequest
-     * @param string $dataAttributes
-     * @return string
-     * @throws InvalidArgumentValueException
-     */
-    public function render($src,
-                           $class = '',
-                           $name = '',
-                           $width = 0,
-                           $height = 0,
-                           $sandbox = '',
-                           $allowFullScreen = false,
-                           $allowPaymentRequest = false,
-                           $dataAttributes = '')
-    {
-
-        return static::renderStatic(
-            [
-                'src' => $src,
-                'class' => $class,
-                'name' => $name,
-                'width' => $width,
-                'height' => $height,
-                'sandbox' => $sandbox,
-                'allowFullScreen' => $allowFullScreen,
-                'allowPaymentRequest' => $allowPaymentRequest,
-                'dataAttributes' => $dataAttributes,
-            ],
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
+    public function setTagBuilder() {
+        if(!$this->tag) {
+            $this->tag = GeneralUtility::makeInstance(TagBuilder::class);
+        }
     }
 
     /**
-     * Renders an Iframe tag from the given arguments
-     * Possible argument values: src, class, name, width, height, sandbox
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
+     * Initialize arguments.
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerUniversalTagAttributes();
+        $this->registerTagAttribute('src', 'string', 'Specifies the source for the iframe', true);
+        $this->registerTagAttribute('name', 'string', 'Specifies the name for the iframe', false);
+        $this->registerTagAttribute('width', 'int', 'Specifies the width of the iframe', false);
+        $this->registerTagAttribute('height', 'int', 'Specifies the height of the iframe', false);
+        $this->registerTagAttribute('sandbox', 'string', 'Specifies the sandbox values (comma separated) for the iframe', false);
+        $this->registerTagAttribute('allowFullScreen', 'bool', 'Specifies if the iframe can be used in full screen mode', false);
+        $this->registerTagAttribute('allowPaymentRequest', 'bool', 'Specifies if payment is allowed in the iframe', false);
+    }
+
+    /**
+     * Renders the iframe tag
      *
      * @return string
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render()
     {
-        $output = IframeUtility::generateIframeTagFromConfigArray($arguments);
+        $iframe = new Iframe($this->arguments['src'], 
+            $this->arguments['class'] ?? '',
+            $this->arguments['name'] ?? '',
+            $this->arguments['width'] ?? 0,
+            $this->arguments['height'] ?? 0,
+            $this->arguments['sandbox'] ?? '',
+            $this->arguments['allowPaymentRequest'] ?? false,
+            $this->arguments['allowFullScreen'] ?? false
+        );
 
-        return $output;
+        $iframe->registerSrcHost();
+
+        $this->tag->addAttribute('src', $iframe->getSrc());
+
+        if($iframe->getClass()) {
+            $this->tag->addAttribute('name', $iframe->getName());
+        }
+
+        if($iframe->getClass()) {
+            $this->tag->addAttribute('class', $iframe->getClass());
+        }
+        if($iframe->getWidth()) {
+            $this->tag->addAttribute('width', $iframe->getWidth());
+        }
+        if($iframe->getHeight()) {
+            $this->tag->addAttribute('height', $iframe->getHeight());
+        }
+        if(count($iframe->getSandbox()) > 0) {
+            $this->tag->addAttribute('sandbox', implode(" ", $iframe->getSandbox()));
+        }
+        if($iframe->isAllowFullScreen()) {
+
+            $this->tag->addAttribute('allowfullscreen', 'allowfullscreen');
+        }
+        if($iframe->isAllowPaymentRequest()) {
+            $this->tag->addAttribute('allowpaymentrequest', 'allowpaymentrequest');
+        }
+
+        $this->tag->forceClosingTag(true);
+
+        return $this->tag->render();
     }
 }

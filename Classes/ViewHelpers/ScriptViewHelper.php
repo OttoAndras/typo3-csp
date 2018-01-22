@@ -13,79 +13,54 @@ namespace AndrasOtto\Csp\ViewHelpers;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
-use AndrasOtto\Csp\Utility\ScriptUtility;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\CompilableInterface;
+use AndrasOtto\Csp\Constants\HashTypes;
+use AndrasOtto\Csp\Domain\Model\Script;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
- * Declares new variables which are aliases of other variables.
- * Takes a "map"-Parameter which is an associative array which defines the shorthand mapping.
+ * Renders a script tag
  *
- * The variables are only declared inside the <f:alias>...</f:alias>-tag. After the
- * closing tag, all declared variables are removed again.
- *
- * = Examples =
- *
- * <code title="Single alias">
- * <f:alias map="{x: 'foo'}">{x}</f:alias>
- * </code>
- * <output>
- * foo
- * </output>
- *
- * <code title="Multiple mappings">
- * <f:alias map="{x: foo.bar.baz, y: foo.bar.baz.name}">
- *   {x.name} or {y}
- * </f:alias>
- * </code>
- * <output>
- * [name] or [name]
- * depending on {foo.bar.baz}
- * </output>
- *
- * @api
+ * Class ScriptViewHelper
+ * @package AndrasOtto\Csp\ViewHelpers
  */
-class ScriptViewHelper extends AbstractViewHelper implements CompilableInterface
+class ScriptViewHelper extends AbstractTagBasedViewHelper
 {
 
-    /**
-     * Declare aliases
-     *
-     * @param string $hashMethod the values sha256|sha512. It defines the hash algorithm
-     * @return string Rendered string
-     * @throws InvalidArgumentValueException
-     * @api
-     */
-    public function render($hashMethod = 'sha256')
-    {
-        return static::renderStatic(
-            ['hashMethod' => $hashMethod],
-            $this->buildRenderChildrenClosure(),
-            $this->renderingContext
-        );
+    protected $tagName = 'script';
+
+    public function setTagBuilder() {
+        if(!$this->tag) {
+            $this->tag = GeneralUtility::makeInstance(TagBuilder::class);
+        }
     }
 
     /**
-     * Declare aliases
-     *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
+     * Initialize arguments.
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerUniversalTagAttributes();
+        $this->registerArgument('hashMethod', 'string', 'Specifies the hash method for the CSP header', false, 'sha256');
+    }
+
+    /**
+     * Renders the script tag
      *
      * @return string
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render()
     {
-        $output = $renderChildrenClosure();
-        $hashMethod = $arguments['hashMethod'] ?? '';
+        if($scriptText = $this->renderChildren()) {
+            $hashMethod = $this->arguments['hashMethod'] ?? HashTypes::SHA_256;
 
-        if($hashMethod) {
-            $output = ScriptUtility::getValidScriptTag($output, $hashMethod, true);
+            $script = new Script($scriptText, $hashMethod);
+            $this->tag->setContent($script->getScript());
+            $script->generateHtmlTag();
         }
-
-        return $output;
+        $this->tag->forceClosingTag(true);
+        return $this->tag->render();
     }
 }
