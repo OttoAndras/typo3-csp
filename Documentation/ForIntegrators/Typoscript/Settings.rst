@@ -20,6 +20,7 @@ There are some presets delivered with the extension:
 - Vimeo
 - Google fonts
 - jQuery
+- TypeKit
 
 There are constants to change the predefined hosts if necessary but these are more as examples as hard coded rules.
 

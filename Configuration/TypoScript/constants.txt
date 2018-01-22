@@ -48,6 +48,21 @@ plugin.tx_csp.settings {
             script = code.jquery.com cdnjs.cloudflare.com maxcdn.bootstrapcdn.com
             style = maxcdn.bootstrapcdn.com
         }
+
+        typeKit {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling TypeKit preset
+            enabled = 0
+            script = use.typekit.net
+            style = use.typekit.net
+            font = use.typekit.net fonts.typekit.net
+            img = p.typekit.net
+        }
+
+        typeKitPerformance {
+            # cat=plugin.tx_csp//presets; type=boolean; label= Enabling preset for Adobe Performance metrics (typeKit)
+            enabled = 0
+            connect =  performance.typekit.net
+        }
     }
 
     # cat=plugin.tx_csp//report; type=boolean; label= Enabling reportOnly header instead of the normal.

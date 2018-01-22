@@ -56,6 +56,23 @@ plugin.tx_csp.settings {
                 style = {$plugin.tx_csp.settings.presets.bootstrap.script}
             }
         }
+
+        typeKit {
+            enabled = {$plugin.tx_csp.settings.presets.typeKit.enabled}
+            rules {
+                script = {$plugin.tx_csp.settings.presets.typeKit.script}
+                style = {$plugin.tx_csp.settings.presets.typeKit.script}
+                font = {$plugin.tx_csp.settings.presets.typeKit.font}
+                img = {$plugin.tx_csp.settings.presets.typeKit.img}
+            }
+        }
+
+        typeKitPerformance {
+            enabled = {$plugin.tx_csp.settings.presets.typeKitPerformance.enabled}
+            rules {
+                connect = {$plugin.tx_csp.settings.presets.typeKitPerformance.connect}
+            }
+        }
     }
 
     additionalSources {
